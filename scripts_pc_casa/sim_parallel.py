@@ -323,15 +323,15 @@ except Exception as e:
 #######################################
 
 #conf_dir0 = r'C:\Users\aamad\phd_scripts\codice\slides\pvt\conf'
-conf_dir0 = '/home/aamad/codice/slides/pvt/conf'
+conf_dir0 = os.path.join(os.environ['WORKSPACE'],'slides','pvt','conf')
 #conf_dir=r'C:\Users\aamad\phd_scripts\codice\slides\work_15_07'
-conf_dir='/home/aamad/codice/slides/work_slides/conf_files'
+conf_dir=os.path.join(os.environ['WORKSPACE'],'slides','work_slides','conf_files')
 #dir_data=r'C:\Users\aamad\phd_scripts\codice\slides\work_ws\data\barriers_config.csv'
-dir_data = '/home/aamad/codice/slides/work_slides/data/barriers_config.csv'
+dir_data = os.path.join(os.environ['WORKSPACE'],'slides','work_slides','data','barriers_config.csv')
 #state_basename = r"C:\Users\aamad\phd_scripts\codice\slides\work_ws\output"
-state_basename = "/home/aamad/codice/slides/work_ws/output"
+state_basename = os.path.join(os.environ['WORKSPACE'],'slides','work_ws','output')
 #file_distances_real_data = r'C:\Users\aamad\phd_scripts\codice\slides\work_ws\data\COVE flussi_pedonali 18-27 luglio.xlsx'
-file_distances_real_data ='/home/aamad/codice/slides/work_slides/data/COVE flussi_pedonali 18-27 luglio.xlsx'
+file_distances_real_data =os.path.join(os.environ['WORKSPACE'],'slides','work_slides','data','COVE flussi_pedonali 18-27 luglio.xlsx')
 real_data=pd.read_excel(file_distances_real_data, engine='openpyxl')
 time_format='%Y-%m-%d %H:%M:%S'
 

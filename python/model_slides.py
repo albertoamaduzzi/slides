@@ -44,13 +44,14 @@ def box_centered_kernel(tot_len, box_len):
 class model_slides:
 
   def __init__(self, config):
+    print('entrato in model_slides in model_slides.py da conf in conf.py')
     self.got_data = False
     self.date_format = '%Y-%m-%d %H:%M:%S'
     self.time_format = '%H:%M:%S'
-    self.rates_dt = 15 * 60
+    self.rates_dt = 15 * 60#potrebbe esserci qua una discrepanza con il creation_rate 15 * 50
     self.config = config
 
-    self.wdir = config['work_dir']
+    self.wdir = config['work_dir']#perchè ricreare una cartella che sarebbe già creata se chiamo cong.py?
     if not os.path.exists(self.wdir): os.mkdir(self.wdir)
 
     # init city-specific model
@@ -83,6 +84,7 @@ class model_slides:
 
     # collect model0 filenames
     m0files = glob(f'{self.wdir}/*model0.csv')
+#    print('self.wdir in __init__ di model_sildes',self.wdir)
     for m0f in m0files:
       tok = re.split('[/-]', m0f)
       city = tok[-3]
@@ -93,6 +95,7 @@ class model_slides:
 
     params = {}
     for k, v in config['params'].items():
+#      print('config[params] key {0} values {1} in modle_slides.py'.format(k,v))
       params[k] = {
         'population' : v['population'] if 'population' in v else 1000,
         'daily_t'    : v['daily_tourist'] if 'daily_tourist' in v else 100
@@ -104,9 +107,12 @@ class model_slides:
     #print(self.models)
     logger.info(f'Creating data for {city} {tag}, from {start} to {stop}')
     if not (city, tag) in self.models:
+#      print('if not (city,tag)',models) non ci arriva 
       self.create_model0(city, tag)
-
+#for each source
     model = self.models[(city, tag)]
+#    print('full_table printing variable model',model)#  {'m0': '/home/aamad/code/slides/work_ws/output/m_data/venezia-Papadopoli-model0.csv'} type dict
+#    exit( )
     if city == 'ferrara':
       m01 = 'FE'
       try:
@@ -143,11 +149,17 @@ class model_slides:
       data = pd.DataFrame()
 
     if not tag in data.columns:
+#      print('data.columns in full_table',data.columns)
       m01 = 'm0'
       mfile = self.models[(city,tag)][m01]
       data = pd.read_csv(mfile, sep=';')
+#      print('full_table read data from mfile',data) # File with 96 rows for each day with number of people for each day that are copied
       dtot = self.params[city]['daily_t']
+#      print('dtot full full_table',self.params[city]['daily_t']) #number of tourists in json.make albi
+#      exit( )
       data = self.rescale_data(start, stop, data, tot=dtot).rename(columns={'data':tag})
+#      print('full_table read data rescaled_data',data) #dataframe time;papadopoli (%Y-%m-%d %H:%M%S) every 15 minutes 96 columns
+#      exit( )
       #print('rescaled\n', data)
 
     logger.info(f'Data created for ({city}, {tag}) mode {m01}')
@@ -156,6 +168,7 @@ class model_slides:
   def import_model1(self, city, tag, file):
     logger.debug(f'importing model1 {city}-{tag}')
     m1filename = self.wdir + '/{city}-{tag}-model1.csv'.format(city=city, tag=tag)
+#    print('sono entrato in import model1')
 
     df = pd.read_csv(file, sep=';')
     df.to_csv(m1filename, sep=';', header=True, index=False)
@@ -197,6 +210,7 @@ class model_slides:
         else:
           tt[t] = 10
       self.tt_raw = tt
+#      print('tt_raw keys',tt_raw.keys(),'tt_raw values',tt_raw.values()) #i DON'T ARRIVE HERE
 
       runave_size = 2 * 60 * 60 // self.rates_dt # running average idx interval from time in seconds
       kern = box_centered_kernel(len(tt), runave_size)
@@ -298,14 +312,18 @@ class model_slides:
       for t in df.time
     ]
     df = df.set_index('time')
-
     wday = start.strftime('%a').lower() # fix for near midn simulation
     df = df[[wday]].copy()
+#    print('rescale_data wday and df',wday,df)# wday è sunday scritto con la lettera minuscola .lower()
+#    exit( )
+#    print('tot in rescaled_data',tot)
 
-    if tot != None:
+    if tot != None:# dftot is the number of people I read from the Costituzione_model0.csv tot
       dftot = df[wday].sum()
+#      print('sum of peole in wday',dftot)#same number of tot tourists parameter ins json.conf
       df[wday] = (df[wday] / dftot * tot).astype('float')
-
+#    print('max min rescale_data',max,min) #are None
+#    exit( )
     if max != None:
       dfmax = df[wday].max()
       df[wday] = (df[wday] / dfmax * max).astype('float')
@@ -317,6 +335,7 @@ class model_slides:
 
     df.columns = ['data']
     mask = (df.index >= start) & (df.index < stop)
+#    print('mask rescale_data',mask)# set of 96 Trues
     return df[mask]
 
   def locals(self, start, stop, city):
@@ -326,6 +345,8 @@ class model_slides:
 
     df = pd.DataFrame(index=fullt)
     tt = []
+#    print('creation locals',df)
+#    exit( )
     for t in df.index:
       if t < datetime.strptime(ti.strftime('%Y-%m-%d 01:00:00'), self.date_format):
         v = 0.
@@ -347,6 +368,8 @@ class model_slides:
         v = 0.
       tt.append(v)
     df['tot'] = tt
+#    print('locals tt',tt)
+#    exit( )
     tt = np.array(tt)
 
     runave_size = 2 * 60 * 60 // self.rates_dt # running average idx interval from time in seconds
@@ -376,7 +399,7 @@ if __name__ == '__main__':
 
   with open(args.cfg) as cfgfile:
     config = json.load(cfgfile)
-
+#entro qui partendo da conf.py perchè devo aver già fatto il parsing di conf.json
   date_format = '%Y-%m-%d %H:%M:%S'
   start = datetime.strptime(config['start_date'], date_format)
   stop = datetime.strptime(config['stop_date'], date_format)

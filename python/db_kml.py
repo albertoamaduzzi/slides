@@ -51,6 +51,7 @@ class db_kml:
 
     with open(kmlfile, encoding="utf8") as f:
       folder = xmlparser.parse(f).getroot().Document.Folder
+#    print('parse_kml in db_kml folder type {0} and folder {1}'.format(type(folder),folder))
 
     ### parse bari kml
     locations = {}
@@ -236,11 +237,13 @@ class db_kml:
       for pm in folder.Placemark:
         if pm.ExtendedData != None:
           name = pm.name.text.strip()
+#          print('name in venezia parsing of kml file',name)
 
           # parse metadata
           for data in pm.ExtendedData.getchildren():
             if data.attrib['name'] == 'description':
               description = data.value.text
+#              print('description in db_kml 246',(description))
             elif data.attrib['name'] == 'weight':
               weight = float(data.value.text)
             elif data.attrib['name'] == 'visit_time [h]':
@@ -290,6 +293,7 @@ class db_kml:
       }
       for k,v in locations.items() if v['role'] == 'source'
     }
+    print('sources durante il kml_parse in db_kml',src)
     logger.info(f'Parsed {len(attr)} attractions {len(src)} sources')
 
     self.cities[citytag]['attractions'] = attr
@@ -432,9 +436,10 @@ class db_kml:
 
   def retrieve_data(self, citytag):
     city = self.cities[citytag]
+    print('retrieve_data of db_kml.py')
     if 'mid' not in city: raise Exception('mid not avalaible for {}'.format(citytag))
-
     kmlfile = self.wdir + '/attractions_{}.kml'.format(citytag)
+    print('kml file {}'.format(kmlfile))
     if not os.path.exists(kmlfile) or True:
       try:
         logger.debug('Retrieving kml data for {}'.format(citytag))
@@ -464,6 +469,8 @@ class db_kml:
     return attr
 
   def get_sources(self, citytag):
+    print('get_sources from db_kml')
+    print('self.cities[citytag][valid]',self.cities[citytag]['valid'])
     if not self.cities[citytag]['valid']:
       self.retrieve_data(citytag)
     return self.cities[citytag]['sources']
