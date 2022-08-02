@@ -1,0 +1,62 @@
+##############          PHILOSOPHY          #############
+
+The simulation depends on metadata contained in simcfgorig (a json file). 
+This file contains many important informations, the one that we are going to change: 
+-- sources ->
+- creation_rate ->
+ROLE:
+tells how many people in the simulation for each source each 15 mins.
+HOW ARE THEY HANDLED:
+They will handled by configuration_handler -> (assign_sources(simcfgorig),assign_new_sources(data_barriers,file_excel,
+reset_sources(simcfgorig))  
+-- attractions -> 
+- timecap 
+ROLE:
+Tell if places are opened.
+HOW ARE THEY HANDLED:
+configuration handler -> assign_attractions(simcfgorig), assign_new_attractions()
+- weight ->
+ROLE:
+tell what are the point that attract people' trajectories.
+HOW ARE THEY HANDLED:
+configuration handler ->
+The program is divided into three different files:
+--- simulator.py: ->
+
+Contains the definition of the class simulator that contains all those informations that will be used to:
+- set the direction of operation to change the 
+simcfgorig
+
+--- sim_objects.py: -> contains the definition of:
+-- configuration_handler: ->
+ROLE:
+Receives information about simcfgorig, list of sources and attractions to change, to reset and to add.
+
+
+
+
+Essential elements for successfull simulations:
+#CONFIGURATION FILES to be put by hand and little description:
+--$WORKSPACE/slides/pvt/conf/conf.json.local.albi.make -> model generation
+
+
+--$WORKSPACE/slides/work_slides/data
+
+- barriers_config.csv -> set of barriers and their coordinates
+EXAMPLE
+Id;lat;lng
+Pappadopoli;;
+
+-COVE flussi xlsx
+EXAMPLE
+datetime; ID; in; out
+05/07/2020 00:00:00;Papadopoli1_IN;10;15
+
+
+--$WORKSPACE/slides/work_slides/conf_files
+-conf_venezia.json -> all information about sources attr ecc.
+
+Presence of the following hierarchy of folders to be added (not already cloned):
+--$WORKSPACE/slides/work_slides/data
+--$WORKSPACE/slides/work_slides/conf_files
+

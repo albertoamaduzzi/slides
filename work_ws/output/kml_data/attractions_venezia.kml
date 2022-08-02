@@ -1,0 +1,798 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>venezia</name>
+    <description/>
+    <Style id="icon-1899-0288D1-normal">
+      <IconStyle>
+        <scale>1</scale>
+        <Icon>
+          <href>images/icon-1.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+    </Style>
+    <Style id="icon-1899-0288D1-highlight">
+      <IconStyle>
+        <scale>1</scale>
+        <Icon>
+          <href>images/icon-1.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1</scale>
+      </LabelStyle>
+    </Style>
+    <StyleMap id="icon-1899-0288D1">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-1899-0288D1-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-1899-0288D1-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Style id="icon-1899-A52714-normal">
+      <IconStyle>
+        <scale>1</scale>
+        <Icon>
+          <href>images/icon-2.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+    </Style>
+    <Style id="icon-1899-A52714-highlight">
+      <IconStyle>
+        <scale>1</scale>
+        <Icon>
+          <href>images/icon-2.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1</scale>
+      </LabelStyle>
+    </Style>
+    <StyleMap id="icon-1899-A52714">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-1899-A52714-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-1899-A52714-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Folder>
+      <name>locations</name>
+      <Placemark>
+        <name>Campo San Polo</name>
+        <description><![CDATA[lat: 45.4376935<br>lon: 12.3303509<br>description: poi A<br>weight: 0,6<br>visit_time [h]: 0,8<br>opening_timetables: <br>closing_days: <br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-0288D1</styleUrl>
+        <ExtendedData>
+          <Data name="lat">
+            <value>45.4376935</value>
+          </Data>
+          <Data name="lon">
+            <value>12.3303509</value>
+          </Data>
+          <Data name="description">
+            <value>poi A</value>
+          </Data>
+          <Data name="weight">
+            <value>0.6</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>0.8</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value/>
+          </Data>
+          <Data name="closing_days">
+            <value/>
+          </Data>
+          <Data name="capacity">
+            <value>2000.0</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            12.3303509,45.4376935,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Biennale</name>
+        <description><![CDATA[lat: 45.4322447<br>lon: 12.3367426<br>description: poi A<br>weight: 0,6<br>visit_time [h]: 0,8<br>opening_timetables: 08:00-18:00<br>closing_days: all<br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-0288D1</styleUrl>
+        <ExtendedData>
+          <Data name="lat">
+            <value>45.4322447</value>
+          </Data>
+          <Data name="lon">
+            <value>12.3367426</value>
+          </Data>
+          <Data name="description">
+            <value>poi A</value>
+          </Data>
+          <Data name="weight">
+            <value>0.6</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>0.8</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>08:00-18:00</value>
+          </Data>
+          <Data name="closing_days">
+            <value>all</value>
+          </Data>
+          <Data name="capacity">
+            <value>2000.0</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            12.3367426,45.4322447,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Basilica dei Frari</name>
+        <description><![CDATA[lat: 45.4374964<br>lon: 12.3265172<br>description: poi A<br>weight: 0,6<br>visit_time [h]: 0,8<br>opening_timetables: 08:00-18:00<br>closing_days: <br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-0288D1</styleUrl>
+        <ExtendedData>
+          <Data name="lat">
+            <value>45.4374964</value>
+          </Data>
+          <Data name="lon">
+            <value>12.3265172</value>
+          </Data>
+          <Data name="description">
+            <value>poi A</value>
+          </Data>
+          <Data name="weight">
+            <value>0.6</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>0.8</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>08:00-18:00</value>
+          </Data>
+          <Data name="closing_days">
+            <value/>
+          </Data>
+          <Data name="capacity">
+            <value>2000.0</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            12.3265172,45.4374964,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>San Marco</name>
+        <description><![CDATA[lat: 45.4344323<br>lon: 12.3395635<br>description: poi A<br>weight: 0,6<br>visit_time [h]: 0,8<br>opening_timetables: <br>closing_days: <br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-0288D1</styleUrl>
+        <ExtendedData>
+          <Data name="lat">
+            <value>45.4344323</value>
+          </Data>
+          <Data name="lon">
+            <value>12.3395635</value>
+          </Data>
+          <Data name="description">
+            <value>poi A</value>
+          </Data>
+          <Data name="weight">
+            <value>0.6</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>0.8</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value/>
+          </Data>
+          <Data name="closing_days">
+            <value/>
+          </Data>
+          <Data name="capacity">
+            <value>2000.0</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            12.3395635,45.4344323,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Ponte di Rialto</name>
+        <description><![CDATA[lat: 45.4384449<br>lon: 12.3358942<br>description: poi A<br>weight: 0,6<br>visit_time [h]: 0,8<br>opening_timetables: <br>closing_days: <br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-0288D1</styleUrl>
+        <ExtendedData>
+          <Data name="lat">
+            <value>45.4384449</value>
+          </Data>
+          <Data name="lon">
+            <value>12.3358942</value>
+          </Data>
+          <Data name="description">
+            <value>poi A</value>
+          </Data>
+          <Data name="weight">
+            <value>0.6</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>0.8</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value/>
+          </Data>
+          <Data name="closing_days">
+            <value/>
+          </Data>
+          <Data name="capacity">
+            <value>2000.0</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            12.3358942,45.4384449,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Riva degli Schiavoni</name>
+        <description><![CDATA[lat: 45.4337318<br>lon: 12.3413016<br>description: poi A<br>weight: 0,6<br>visit_time [h]: 0,8<br>opening_timetables: <br>closing_days: <br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-0288D1</styleUrl>
+        <ExtendedData>
+          <Data name="lat">
+            <value>45.4337318</value>
+          </Data>
+          <Data name="lon">
+            <value>12.3413016</value>
+          </Data>
+          <Data name="description">
+            <value>poi A</value>
+          </Data>
+          <Data name="weight">
+            <value>0.6</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>0.8</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value/>
+          </Data>
+          <Data name="closing_days">
+            <value/>
+          </Data>
+          <Data name="capacity">
+            <value>2000.0</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            12.3413016,45.4337318,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name><![CDATA[Gallerie dell'Accademia]]></name>
+        <description><![CDATA[lat: 45.4310784<br>lon: 12.3281394<br>description: poi A<br>weight: 0,6<br>visit_time [h]: 0,8<br>opening_timetables: 08:00-18:00<br>closing_days: <br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-0288D1</styleUrl>
+        <ExtendedData>
+          <Data name="lat">
+            <value>45.4310784</value>
+          </Data>
+          <Data name="lon">
+            <value>12.3281394</value>
+          </Data>
+          <Data name="description">
+            <value>poi A</value>
+          </Data>
+          <Data name="weight">
+            <value>0.6</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>0.8</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>08:00-18:00</value>
+          </Data>
+          <Data name="closing_days">
+            <value/>
+          </Data>
+          <Data name="capacity">
+            <value>2000.0</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            12.3281394,45.4310784,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Basilica di Santa Maria della Salute</name>
+        <description><![CDATA[lat: 45.430675<br>lon: 12.3347626<br>description: poi A<br>weight: 0,6<br>visit_time [h]: 0,8<br>opening_timetables: 08:00-18:00<br>closing_days: <br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-0288D1</styleUrl>
+        <ExtendedData>
+          <Data name="lat">
+            <value>45.430675</value>
+          </Data>
+          <Data name="lon">
+            <value>12.3347626</value>
+          </Data>
+          <Data name="description">
+            <value>poi A</value>
+          </Data>
+          <Data name="weight">
+            <value>0.6</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>0.8</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>08:00-18:00</value>
+          </Data>
+          <Data name="closing_days">
+            <value/>
+          </Data>
+          <Data name="capacity">
+            <value>2000.0</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            12.3347626,45.430675,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Grassi Palace</name>
+        <description><![CDATA[lat: 45.4338015<br>lon: 12.3279463<br>description: poi B<br>weight: 0,3<br>visit_time [h]: 0,1<br>opening_timetables: 08:00-18:00<br>closing_days: sat|sun<br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-0288D1</styleUrl>
+        <ExtendedData>
+          <Data name="lat">
+            <value>45.4338015</value>
+          </Data>
+          <Data name="lon">
+            <value>12.3279463</value>
+          </Data>
+          <Data name="description">
+            <value>poi B</value>
+          </Data>
+          <Data name="weight">
+            <value>0.3</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>0.1</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>08:00-18:00</value>
+          </Data>
+          <Data name="closing_days">
+            <value>sat|sun</value>
+          </Data>
+          <Data name="capacity">
+            <value>2000.0</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            12.3279463,45.4338015,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name><![CDATA[Ca' d'Oro]]></name>
+        <description><![CDATA[lat: 45.4408384<br>lon: 12.3339262<br>description: poi B<br>weight: 0,3<br>visit_time [h]: 0,1<br>opening_timetables: 08:00-18:00<br>closing_days: <br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-0288D1</styleUrl>
+        <ExtendedData>
+          <Data name="lat">
+            <value>45.4408384</value>
+          </Data>
+          <Data name="lon">
+            <value>12.3339262</value>
+          </Data>
+          <Data name="description">
+            <value>poi B</value>
+          </Data>
+          <Data name="weight">
+            <value>0.3</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>0.1</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>08:00-18:00</value>
+          </Data>
+          <Data name="closing_days">
+            <value/>
+          </Data>
+          <Data name="capacity">
+            <value>2000.0</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            12.3339262,45.4408384,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Scuola Grande di San Rocco</name>
+        <description><![CDATA[lat: 45.4366351<br>lon: 12.3254252<br>description: poi A<br>weight: 0,6<br>visit_time [h]: 0,8<br>opening_timetables: 08:00-18:00<br>closing_days: <br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-0288D1</styleUrl>
+        <ExtendedData>
+          <Data name="lat">
+            <value>45.4366351</value>
+          </Data>
+          <Data name="lon">
+            <value>12.3254252</value>
+          </Data>
+          <Data name="description">
+            <value>poi A</value>
+          </Data>
+          <Data name="weight">
+            <value>0.6</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>0.8</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>08:00-18:00</value>
+          </Data>
+          <Data name="closing_days">
+            <value/>
+          </Data>
+          <Data name="capacity">
+            <value>2000.0</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            12.3254252,45.4366351,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Campo Santa Margherita</name>
+        <description><![CDATA[lat: 45.4342819<br>lon: 12.3236391<br>description: poi B<br>weight: 0,3<br>visit_time [h]: 0,1<br>opening_timetables: <br>closing_days: <br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-0288D1</styleUrl>
+        <ExtendedData>
+          <Data name="lat">
+            <value>45.4342819</value>
+          </Data>
+          <Data name="lon">
+            <value>12.3236391</value>
+          </Data>
+          <Data name="description">
+            <value>poi B</value>
+          </Data>
+          <Data name="weight">
+            <value>0.3</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>0.1</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value/>
+          </Data>
+          <Data name="closing_days">
+            <value/>
+          </Data>
+          <Data name="capacity">
+            <value>2000.0</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            12.3236391,45.4342819,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Jewish Museum of Venice</name>
+        <description><![CDATA[lat: 45.4449848<br>lon: 12.3269231<br>description: poi B<br>weight: 0,3<br>visit_time [h]: 0,1<br>opening_timetables: 08:00-18:00<br>closing_days: <br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-0288D1</styleUrl>
+        <ExtendedData>
+          <Data name="lat">
+            <value>45.4449848</value>
+          </Data>
+          <Data name="lon">
+            <value>12.3269231</value>
+          </Data>
+          <Data name="description">
+            <value>poi B</value>
+          </Data>
+          <Data name="weight">
+            <value>0.3</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>0.1</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>08:00-18:00</value>
+          </Data>
+          <Data name="closing_days">
+            <value/>
+          </Data>
+          <Data name="capacity">
+            <value>2000.0</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            12.3269231,45.4449848,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Church of San Giorgio Maggiore</name>
+        <description><![CDATA[lat: 45.4294192<br>lon: 12.343204<br>description: po-off B<br>weight: 0,3<br>visit_time [h]: 0,1<br>opening_timetables: <br>closing_days: <br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-0288D1</styleUrl>
+        <ExtendedData>
+          <Data name="lat">
+            <value>45.4294192</value>
+          </Data>
+          <Data name="lon">
+            <value>12.343204</value>
+          </Data>
+          <Data name="description">
+            <value>po-off B</value>
+          </Data>
+          <Data name="weight">
+            <value>0.3</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>0.1</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value/>
+          </Data>
+          <Data name="closing_days">
+            <value/>
+          </Data>
+          <Data name="capacity">
+            <value>2000.0</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            12.343204,45.4294192,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Chiesa di San Zaccaria</name>
+        <description><![CDATA[lat: 45.4347794<br>lon: 12.3434712<br>description: poi B<br>weight: 0,3<br>visit_time [h]: 0,1<br>opening_timetables: 08:00-18:00<br>closing_days: <br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-0288D1</styleUrl>
+        <ExtendedData>
+          <Data name="lat">
+            <value>45.4347794</value>
+          </Data>
+          <Data name="lon">
+            <value>12.3434712</value>
+          </Data>
+          <Data name="description">
+            <value>poi B</value>
+          </Data>
+          <Data name="weight">
+            <value>0.3</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>0.1</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>08:00-18:00</value>
+          </Data>
+          <Data name="closing_days">
+            <value/>
+          </Data>
+          <Data name="capacity">
+            <value>2000.0</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            12.3434712,45.4347794,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>T Fondaco dei Tedeschi by DFS</name>
+        <description><![CDATA[lat: 45.4382495<br>lon: 12.3367458<br>description: poi B<br>weight: 0,3<br>visit_time [h]: 0,1<br>opening_timetables: 08:00-18:00<br>closing_days: <br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-0288D1</styleUrl>
+        <ExtendedData>
+          <Data name="lat">
+            <value>45.4382495</value>
+          </Data>
+          <Data name="lon">
+            <value>12.3367458</value>
+          </Data>
+          <Data name="description">
+            <value>poi B</value>
+          </Data>
+          <Data name="weight">
+            <value>0.3</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>0.1</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>08:00-18:00</value>
+          </Data>
+          <Data name="closing_days">
+            <value/>
+          </Data>
+          <Data name="capacity">
+            <value>2000.0</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            12.3367458,45.4382495,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Campo della Pescaria</name>
+        <description><![CDATA[lat: 45.4398563<br>lon: 12.3343668<br>description: poi A<br>weight: 0,6<br>visit_time [h]: 0,8<br>opening_timetables: <br>closing_days: <br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-0288D1</styleUrl>
+        <ExtendedData>
+          <Data name="lat">
+            <value>45.4398563</value>
+          </Data>
+          <Data name="lon">
+            <value>12.3343668</value>
+          </Data>
+          <Data name="description">
+            <value>poi A</value>
+          </Data>
+          <Data name="weight">
+            <value>0.6</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>0.8</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value/>
+          </Data>
+          <Data name="closing_days">
+            <value/>
+          </Data>
+          <Data name="capacity">
+            <value>2000.0</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            12.3343668,45.4398563,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Papadopoli</name>
+        <description><![CDATA[lat: 45.43789<br>lon: 12.32116<br>description: accesso<br>weight: 0,2<br>visit_time [h]: -1<br>opening_timetables: -1<br>closing_days: -1<br>capacity: ]]></description>
+        <styleUrl>#icon-1899-A52714</styleUrl>
+        <ExtendedData>
+          <Data name="lat">
+            <value>45.43789</value>
+          </Data>
+          <Data name="lon">
+            <value>12.32116</value>
+          </Data>
+          <Data name="description">
+            <value>accesso</value>
+          </Data>
+          <Data name="weight">
+            <value>0.2</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>-1.0</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>-1</value>
+          </Data>
+          <Data name="closing_days">
+            <value>-1</value>
+          </Data>
+          <Data name="capacity">
+            <value/>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            12.32116,45.43789,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Costituzione</name>
+        <description><![CDATA[lat: 45.439339<br>lon: 12.319993<br>description: accesso<br>weight: 0,5<br>visit_time [h]: -1<br>opening_timetables: -1<br>closing_days: -1<br>capacity: ]]></description>
+        <styleUrl>#icon-1899-A52714</styleUrl>
+        <ExtendedData>
+          <Data name="lat">
+            <value>45.439339</value>
+          </Data>
+          <Data name="lon">
+            <value>12.319993</value>
+          </Data>
+          <Data name="description">
+            <value>accesso</value>
+          </Data>
+          <Data name="weight">
+            <value>0.5</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>-1.0</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>-1</value>
+          </Data>
+          <Data name="closing_days">
+            <value>-1</value>
+          </Data>
+          <Data name="capacity">
+            <value/>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            12.319993,45.439339,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Schiavoni</name>
+        <description><![CDATA[lat: 45.4336926<br>lon: 12.3420174<br>description: accesso<br>weight: 0,3<br>visit_time [h]: -1<br>opening_timetables: -1<br>closing_days: -1<br>capacity: ]]></description>
+        <styleUrl>#icon-1899-A52714</styleUrl>
+        <ExtendedData>
+          <Data name="lat">
+            <value>45.4336926</value>
+          </Data>
+          <Data name="lon">
+            <value>12.3420174</value>
+          </Data>
+          <Data name="description">
+            <value>accesso</value>
+          </Data>
+          <Data name="weight">
+            <value>0.3</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>-1.0</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>-1</value>
+          </Data>
+          <Data name="closing_days">
+            <value>-1</value>
+          </Data>
+          <Data name="capacity">
+            <value/>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            12.3420174,45.4336926,0
+          </coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+  </Document>
+</kml>

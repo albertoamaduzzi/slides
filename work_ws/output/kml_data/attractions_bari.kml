@@ -1,0 +1,805 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>bari</name>
+    <description/>
+    <Style id="icon-1899-558B2F-normal">
+      <IconStyle>
+        <scale>1</scale>
+        <Icon>
+          <href>images/icon-1.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+    </Style>
+    <Style id="icon-1899-558B2F-highlight">
+      <IconStyle>
+        <scale>1</scale>
+        <Icon>
+          <href>images/icon-1.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1</scale>
+      </LabelStyle>
+    </Style>
+    <StyleMap id="icon-1899-558B2F">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-1899-558B2F-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-1899-558B2F-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Style id="icon-1899-C2185B-normal">
+      <IconStyle>
+        <scale>1</scale>
+        <Icon>
+          <href>images/icon-3.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+    </Style>
+    <Style id="icon-1899-C2185B-highlight">
+      <IconStyle>
+        <scale>1</scale>
+        <Icon>
+          <href>images/icon-3.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1</scale>
+      </LabelStyle>
+    </Style>
+    <StyleMap id="icon-1899-C2185B">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-1899-C2185B-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-1899-C2185B-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Style id="icon-1899-FF5252-normal">
+      <IconStyle>
+        <scale>1</scale>
+        <Icon>
+          <href>images/icon-2.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+    </Style>
+    <Style id="icon-1899-FF5252-highlight">
+      <IconStyle>
+        <scale>1</scale>
+        <Icon>
+          <href>images/icon-2.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1</scale>
+      </LabelStyle>
+    </Style>
+    <StyleMap id="icon-1899-FF5252">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-1899-FF5252-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-1899-FF5252-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Folder>
+      <name>Livello senza titolo</name>
+      <Placemark>
+        <name>limite1</name>
+        <description><![CDATA[descrizione: bbox<br>weight: -1<br>visit_time [h]: -1<br>opening_timetables: -1<br>active_dates: -1<br>closing_days: -1<br>capacity: -1]]></description>
+        <styleUrl>#icon-1899-558B2F</styleUrl>
+        <ExtendedData>
+          <Data name="descrizione">
+            <value>bbox</value>
+          </Data>
+          <Data name="weight">
+            <value>-1.0</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>-1.0</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>-1</value>
+          </Data>
+          <Data name="active_dates">
+            <value>-1</value>
+          </Data>
+          <Data name="closing_days">
+            <value>-1</value>
+          </Data>
+          <Data name="capacity">
+            <value>-1</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            16.8076072,41.1136478,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>limite3</name>
+        <description><![CDATA[descrizione: bbox<br>weight: -1<br>visit_time [h]: -1<br>opening_timetables: -1<br>active_dates: -1<br>closing_days: -1<br>capacity: -1]]></description>
+        <styleUrl>#icon-1899-558B2F</styleUrl>
+        <ExtendedData>
+          <Data name="descrizione">
+            <value>bbox</value>
+          </Data>
+          <Data name="weight">
+            <value>-1.0</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>-1.0</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>-1</value>
+          </Data>
+          <Data name="active_dates">
+            <value>-1</value>
+          </Data>
+          <Data name="closing_days">
+            <value>-1</value>
+          </Data>
+          <Data name="capacity">
+            <value>-1</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            16.9075999,41.148881,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>limite4</name>
+        <description><![CDATA[descrizione: bbox<br>weight: -1<br>visit_time [h]: -1<br>opening_timetables: -1<br>active_dates: -1<br>closing_days: -1<br>capacity: -1]]></description>
+        <styleUrl>#icon-1899-558B2F</styleUrl>
+        <ExtendedData>
+          <Data name="descrizione">
+            <value>bbox</value>
+          </Data>
+          <Data name="weight">
+            <value>-1.0</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>-1.0</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>-1</value>
+          </Data>
+          <Data name="active_dates">
+            <value>-1</value>
+          </Data>
+          <Data name="closing_days">
+            <value>-1</value>
+          </Data>
+          <Data name="capacity">
+            <value>-1</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            16.8076,41.14888,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>limite2</name>
+        <description><![CDATA[descrizione: bbox<br>weight: -1<br>visit_time [h]: -1<br>opening_timetables: -1<br>active_dates: -1<br>closing_days: -1<br>capacity: -1]]></description>
+        <styleUrl>#icon-1899-558B2F</styleUrl>
+        <ExtendedData>
+          <Data name="descrizione">
+            <value>bbox</value>
+          </Data>
+          <Data name="weight">
+            <value>-1.0</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>-1.0</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>-1</value>
+          </Data>
+          <Data name="active_dates">
+            <value>-1</value>
+          </Data>
+          <Data name="closing_days">
+            <value>-1</value>
+          </Data>
+          <Data name="capacity">
+            <value>-1</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            16.90759,41.11364,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Museo Civico Bari</name>
+        <description><![CDATA[descrizione: poi A<br>weight: 0,4<br>visit_time [h]: 1<br>opening_timetables: 08:00-18:00<br>active_dates: <br>closing_days: <br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-FF5252</styleUrl>
+        <ExtendedData>
+          <Data name="descrizione">
+            <value>poi A</value>
+          </Data>
+          <Data name="weight">
+            <value>0.4</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>1.0</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>08:00-18:00</value>
+          </Data>
+          <Data name="active_dates">
+            <value/>
+          </Data>
+          <Data name="closing_days">
+            <value/>
+          </Data>
+          <Data name="capacity">
+            <value>2000</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            16.8691461,41.1273309,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Chiesa di Santa Scolastica</name>
+        <description><![CDATA[descrizione: poi A<br>weight: 0,4<br>visit_time [h]: 1<br>opening_timetables: 08:00-18:00<br>active_dates: <br>closing_days: <br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-FF5252</styleUrl>
+        <ExtendedData>
+          <Data name="descrizione">
+            <value>poi A</value>
+          </Data>
+          <Data name="weight">
+            <value>0.4</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>1.0</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>08:00-18:00</value>
+          </Data>
+          <Data name="active_dates">
+            <value/>
+          </Data>
+          <Data name="closing_days">
+            <value/>
+          </Data>
+          <Data name="capacity">
+            <value>2000</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            16.8708211000001,41.1321922,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name><![CDATA[Museo Diocesano & Museo della Cattedrale]]></name>
+        <description><![CDATA[descrizione: poi A<br>weight: 0,4<br>visit_time [h]: 1<br>opening_timetables: 08:00-18:00<br>active_dates: <br>closing_days: <br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-FF5252</styleUrl>
+        <ExtendedData>
+          <Data name="descrizione">
+            <value>poi A</value>
+          </Data>
+          <Data name="weight">
+            <value>0.4</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>1.0</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>08:00-18:00</value>
+          </Data>
+          <Data name="active_dates">
+            <value/>
+          </Data>
+          <Data name="closing_days">
+            <value/>
+          </Data>
+          <Data name="capacity">
+            <value>2000</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            16.8688564,41.1279359,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Museo Nicolaiano</name>
+        <description><![CDATA[descrizione: poi A<br>weight: 0,4<br>visit_time [h]: 1<br>opening_timetables: 08:00-18:00<br>active_dates: <br>closing_days: <br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-FF5252</styleUrl>
+        <ExtendedData>
+          <Data name="descrizione">
+            <value>poi A</value>
+          </Data>
+          <Data name="weight">
+            <value>0.4</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>1.0</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>08:00-18:00</value>
+          </Data>
+          <Data name="active_dates">
+            <value/>
+          </Data>
+          <Data name="closing_days">
+            <value/>
+          </Data>
+          <Data name="capacity">
+            <value>2000</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            16.870539,41.130845,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Castello svevo</name>
+        <description><![CDATA[descrizione: poi A<br>weight: 0,4<br>visit_time [h]: 1<br>opening_timetables: 08:00-18:00<br>active_dates: <br>closing_days: <br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-FF5252</styleUrl>
+        <ExtendedData>
+          <Data name="descrizione">
+            <value>poi A</value>
+          </Data>
+          <Data name="weight">
+            <value>0.4</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>1.0</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>08:00-18:00</value>
+          </Data>
+          <Data name="active_dates">
+            <value/>
+          </Data>
+          <Data name="closing_days">
+            <value/>
+          </Data>
+          <Data name="capacity">
+            <value>2000</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            16.8666115,41.1284599,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Palazzo Simi</name>
+        <description><![CDATA[descrizione: poi A<br>weight: 0,4<br>visit_time [h]: 1<br>opening_timetables: 08:00-18:00<br>active_dates: <br>closing_days: <br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-FF5252</styleUrl>
+        <ExtendedData>
+          <Data name="descrizione">
+            <value>poi A</value>
+          </Data>
+          <Data name="weight">
+            <value>0.4</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>1.0</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>08:00-18:00</value>
+          </Data>
+          <Data name="active_dates">
+            <value/>
+          </Data>
+          <Data name="closing_days">
+            <value/>
+          </Data>
+          <Data name="capacity">
+            <value>2000</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            16.8697958,41.1274321,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Pinacoteca Corrado Giaquinto</name>
+        <description><![CDATA[descrizione: poi A<br>weight: 0,4<br>visit_time [h]: 1<br>opening_timetables: 08:00-18:00<br>active_dates: <br>closing_days: <br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-FF5252</styleUrl>
+        <ExtendedData>
+          <Data name="descrizione">
+            <value>poi A</value>
+          </Data>
+          <Data name="weight">
+            <value>0.4</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>1.0</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>08:00-18:00</value>
+          </Data>
+          <Data name="active_dates">
+            <value/>
+          </Data>
+          <Data name="closing_days">
+            <value/>
+          </Data>
+          <Data name="capacity">
+            <value>2000</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            16.8817702,41.1214217,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Basilica San Nicola</name>
+        <description><![CDATA[descrizione: poi A<br>weight: 0,4<br>visit_time [h]: 1<br>opening_timetables: 08:00-18:00<br>active_dates: <br>closing_days: <br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-FF5252</styleUrl>
+        <ExtendedData>
+          <Data name="descrizione">
+            <value>poi A</value>
+          </Data>
+          <Data name="weight">
+            <value>0.4</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>1.0</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>08:00-18:00</value>
+          </Data>
+          <Data name="active_dates">
+            <value/>
+          </Data>
+          <Data name="closing_days">
+            <value/>
+          </Data>
+          <Data name="capacity">
+            <value>2000</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            16.8701375000001,41.1303137,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Basilica Cattedrale San Sabino</name>
+        <description><![CDATA[descrizione: poi A<br>weight: 0,4<br>visit_time [h]: 1<br>opening_timetables: 08:00-18:00<br>active_dates: <br>closing_days: <br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-FF5252</styleUrl>
+        <ExtendedData>
+          <Data name="descrizione">
+            <value>poi A</value>
+          </Data>
+          <Data name="weight">
+            <value>0.4</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>1.0</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>08:00-18:00</value>
+          </Data>
+          <Data name="active_dates">
+            <value/>
+          </Data>
+          <Data name="closing_days">
+            <value/>
+          </Data>
+          <Data name="capacity">
+            <value>2000</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            16.8688392,41.1285133,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Teatro Petruzzelli</name>
+        <description><![CDATA[descrizione: poi A<br>weight: 0,4<br>visit_time [h]: 1<br>opening_timetables: 08:00-18:00<br>active_dates: <br>closing_days: all<br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-FF5252</styleUrl>
+        <ExtendedData>
+          <Data name="descrizione">
+            <value>poi A</value>
+          </Data>
+          <Data name="weight">
+            <value>0.4</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>1.0</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>08:00-18:00</value>
+          </Data>
+          <Data name="active_dates">
+            <value/>
+          </Data>
+          <Data name="closing_days">
+            <value>all</value>
+          </Data>
+          <Data name="capacity">
+            <value>2000</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            16.8727260000001,41.123536,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Piazza del Ferrarese</name>
+        <description><![CDATA[descrizione: poi A<br>weight: 0,4<br>visit_time [h]: 1<br>opening_timetables: <br>active_dates: <br>closing_days: <br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-FF5252</styleUrl>
+        <ExtendedData>
+          <Data name="descrizione">
+            <value>poi A</value>
+          </Data>
+          <Data name="weight">
+            <value>0.4</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>1.0</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value/>
+          </Data>
+          <Data name="active_dates">
+            <value/>
+          </Data>
+          <Data name="closing_days">
+            <value/>
+          </Data>
+          <Data name="capacity">
+            <value>2000</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            16.8718722999999,41.126921,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Museo Teatro Margherita</name>
+        <description><![CDATA[descrizione: poi A<br>weight: 0,4<br>visit_time [h]: 1<br>opening_timetables: 08:00-18:00<br>active_dates: <br>closing_days: <br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-FF5252</styleUrl>
+        <ExtendedData>
+          <Data name="descrizione">
+            <value>poi A</value>
+          </Data>
+          <Data name="weight">
+            <value>0.4</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>1.0</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>08:00-18:00</value>
+          </Data>
+          <Data name="active_dates">
+            <value/>
+          </Data>
+          <Data name="closing_days">
+            <value/>
+          </Data>
+          <Data name="capacity">
+            <value>2000</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            16.8728911000001,41.1264206,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name><![CDATA[Molo Sant'Antonio]]></name>
+        <description><![CDATA[descrizione: poi A<br>weight: 0,4<br>visit_time [h]: 1<br>opening_timetables: <br>active_dates: <br>closing_days: <br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-FF5252</styleUrl>
+        <ExtendedData>
+          <Data name="descrizione">
+            <value>poi A</value>
+          </Data>
+          <Data name="weight">
+            <value>0.4</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>1.0</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value/>
+          </Data>
+          <Data name="active_dates">
+            <value/>
+          </Data>
+          <Data name="closing_days">
+            <value/>
+          </Data>
+          <Data name="capacity">
+            <value>2000</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            16.8766979,41.1283101,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Lungomare</name>
+        <description><![CDATA[descrizione: poi A<br>weight: 0,4<br>visit_time [h]: 1<br>opening_timetables: <br>active_dates: <br>closing_days: <br>capacity: 2000]]></description>
+        <styleUrl>#icon-1899-FF5252</styleUrl>
+        <ExtendedData>
+          <Data name="descrizione">
+            <value>poi A</value>
+          </Data>
+          <Data name="weight">
+            <value>0.4</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>1.0</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value/>
+          </Data>
+          <Data name="active_dates">
+            <value/>
+          </Data>
+          <Data name="closing_days">
+            <value/>
+          </Data>
+          <Data name="capacity">
+            <value>2000</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            16.8762512,41.123942,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Stazione</name>
+        <description><![CDATA[descrizione: accesso<br>weight: 1<br>visit_time [h]: -1<br>opening_timetables: -1<br>active_dates: -1<br>closing_days: -1<br>capacity: -1]]></description>
+        <styleUrl>#icon-1899-C2185B</styleUrl>
+        <ExtendedData>
+          <Data name="descrizione">
+            <value>accesso</value>
+          </Data>
+          <Data name="weight">
+            <value>1.0</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>-1.0</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>-1</value>
+          </Data>
+          <Data name="active_dates">
+            <value>-1</value>
+          </Data>
+          <Data name="closing_days">
+            <value>-1</value>
+          </Data>
+          <Data name="capacity">
+            <value>-1</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            16.8703084,41.1182989,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Via Dante</name>
+        <description><![CDATA[descrizione: accesso<br>weight: 1<br>visit_time [h]: -1<br>opening_timetables: -1<br>active_dates: -1<br>closing_days: -1<br>capacity: -1]]></description>
+        <styleUrl>#icon-1899-C2185B</styleUrl>
+        <ExtendedData>
+          <Data name="descrizione">
+            <value>accesso</value>
+          </Data>
+          <Data name="weight">
+            <value>1.0</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>-1.0</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>-1</value>
+          </Data>
+          <Data name="active_dates">
+            <value>-1</value>
+          </Data>
+          <Data name="closing_days">
+            <value>-1</value>
+          </Data>
+          <Data name="capacity">
+            <value>-1</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            16.869635,41.1220527,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>San Nicola</name>
+        <description><![CDATA[descrizione: accesso<br>weight: 1<br>visit_time [h]: -1<br>opening_timetables: -1<br>active_dates: -1<br>closing_days: -1<br>capacity: -1]]></description>
+        <styleUrl>#icon-1899-C2185B</styleUrl>
+        <ExtendedData>
+          <Data name="descrizione">
+            <value>accesso</value>
+          </Data>
+          <Data name="weight">
+            <value>1.0</value>
+          </Data>
+          <Data name="visit_time [h]">
+            <value>-1.0</value>
+          </Data>
+          <Data name="opening_timetables">
+            <value>-1</value>
+          </Data>
+          <Data name="active_dates">
+            <value>-1</value>
+          </Data>
+          <Data name="closing_days">
+            <value>-1</value>
+          </Data>
+          <Data name="capacity">
+            <value>-1</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            16.8692703,41.1260834,0
+          </coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+  </Document>
+</kml>

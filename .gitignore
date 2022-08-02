@@ -88,5 +88,4 @@ __pycache__/
 docker/.ssh/
 
 # Debug
-work_*/
 *.html

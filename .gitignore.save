@@ -1,0 +1,91 @@
+#VS Code
+.vs/
+.vscode/
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Mac desktop service store files
+.DS_Store
+
+# Object files
+*.slo
+*.lo
+*.o
+*.out
+*.ko
+*.obj
+*.elf
+*.exe
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lai
+*.lo
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# QtCreator
+*.autosave
+*.config
+*.creator
+*.creator.user
+*.opendb
+*.iobj
+*.ipdb
+*.db
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+x64/
+[Bb]uild*/
+bld/
+[Bb]in/
+[Oo]bj/
+
+# Data
+*.csv
+*.pro
+*.pnt
+*.plt
+*.log
+vars/conf/conf.json
+vars/templates/*_template.json
+tools/sybenik/data/detection-cfg.json
+tools/sybenik/data/ingestion-cfg.json
+tools/venezia/ingestion-cfg.json
+tools/venezia/detection-cfg.json
+tools/venezia/*.service
+deepsort_ckpt.t7
+yolov5x.pt
+*.old
+
+# Python
+__pycache__/
+*/*/__pycache__/
+
+# Docker
+docker/.ssh/
+
+# Debug
+*.html

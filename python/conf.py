@@ -57,7 +57,7 @@ class conf:
   def generate(self, start_date, stop_date, citytag):
     ####ALBI
     try: 
-      self.wdir_sources_camera=os.path.join(os.environ['WORKSPACE'],'slides','work_ws','output','COVE flussi_pedonali 18-27 luglio.xlsx')
+      self.wdir_sources_camera=os.path.join(os.environ['WORKSPACE'],'slides','work_ws','data','COVE flussi_pedonali 18-27 luglio.xlsx')
       self.sources_from_camera=pd.read_excel(self.wdir_sources_camera, engine='openpyxl')
     except Exception as e:
       raise Exception('[conf] library load failed for cameras fluxes : {}'.format(e)) 
@@ -70,7 +70,7 @@ class conf:
     start = datetime.strptime(start_date, self.date_format)
     stop = datetime.strptime(stop_date, self.date_format)
     mid_start = datetime.strptime(start.strftime('%Y-%m-%d 00:00:00'), self.date_format)
-
+#    print('apro il json:\n',self.cparams[citytag])
     with open(self.cparams[citytag]) as tin:
       conf = json.load(tin)
 
@@ -97,11 +97,11 @@ class conf:
     sources = {}
 
     # sources timetable df generation
-    print('get_sources in conf.py sta per iniziare')
+#    print('get_sources in conf.py sta per iniziare')
     src_list = self.dbk.get_sources(citytag)
 #    print('sources in src_list and type',src_list,type(src_list)) # dict of dict keys sources names,values-key1 lat lon weight
 #    exit( )
-    print('uscito da get_sources')
+#    print('uscito da get_sources')
     srcdata = pd.DataFrame()
     for tag, src in src_list.items():
       #print(tag, src)
@@ -159,127 +159,130 @@ class conf:
     logger.info(f'Simulation total pawn ; {srcdata.sum().sum():.2f}')
 
     # cast dataframe to timetable json format
+#    print(srcdata)
     for tag in srcdata.columns:
 ####################################ALBI#########################################################à
-      print(tag.upper()+'_1' in list(self.sources_from_camera['varco']))
-      if not self.sources_from_camera.empty and tag.upper()+'_1' in list(self.sources_from_camera['varco']) :
-        print((tag))
-        data1 = self.sources_from_camera.loc[self.sources_from_camera['varco']==(tag+'_1').upper()]
+#'''
+#      print(tag.upper()+'_1' in list(self.sources_from_camera['varco']))
+#      if not self.sources_from_camera.empty and tag.upper()+'_1' in list(self.sources_from_camera['varco']) :
+#        print((tag))
+#        data1 = self.sources_from_camera.loc[self.sources_from_camera['varco']==(tag+'_1').upper()]
 #        print(tag)
-        data2=data1.loc[data1.timestamp>config['start_date']]
-        data2=data2.loc[data2.timestamp<config['stop_date']]
+#        data2=data1.loc[data1.timestamp>config['start_date']]
+#        data2=data2.loc[data2.timestamp<config['stop_date']]
 #        print(data2)
-        data2['total_flux']=data2.direzione+data2['Unnamed: 3']
+#        data2['total_flux']=data2.direzione+data2['Unnamed: 3']
 #        print('data di baz',data2)
-        data_=[]
-        time_=[]
-        delta_=timedelta(minutes=15)
-        c=0
-        for dat in range(len(data2)):
-          print(data2.iloc[dat]['total_flux']%2)
-          if data2.iloc[dat]['total_flux']%2==0:
-            for i in range(4):
-              data_.append((data2.iloc[dat]['total_flux']/4))
-              time_.append(data2.iloc[dat]['timestamp']-(4-i)*delta_)
+#        data_=[]
+#        time_=[]
+#        delta_=timedelta(minutes=15)
+#        c=0
+#        for dat in range(len(data2)):
+#          print(data2.iloc[dat]['total_flux']%2)
+#          if data2.iloc[dat]['total_flux']%2==0:
+#            for i in range(4):
+#              data_.append((data2.iloc[dat]['total_flux']/4))
+#              time_.append(data2.iloc[dat]['timestamp']-(4-i)*delta_)
  #             print('data_',data_,'time_',time_)
-              c=c+1
-          else:
-            for i in range(4):
-              if i!=3:
-                data_.append((data2.iloc[dat]['total_flux']/4))
-                time_.append(data2.iloc[dat]['timestamp']-(4-i)*delta_)
-                c=c+1
-              else:
-                data_.append((data2.iloc[dat]['total_flux']/4)+1)
-                time_.append(data2.iloc[dat]['timestamp']-(4-i)*delta_)
-                c=c+1
-        data=list(zip(time_,data_))
-        data=pd.DataFrame(data, columns=["timestamp", "fluxes"])
-        print('data {0} and data_2[total_flux] {1}'.format(data,data2['total_flux']))
+#              c=c+1
+#          else:
+ #           for i in range(4):
+  #            if i!=3:
+  #              data_.append((data2.iloc[dat]['total_flux']/4))
+   #             time_.append(data2.iloc[dat]['timestamp']-(4-i)*delta_)
+    #            c=c+1
+     #         else:
+     #           data_.append((data2.iloc[dat]['total_flux']/4)+1)
+     #           time_.append(data2.iloc[dat]['timestamp']-(4-i)*delta_)
+     #           c=c+1
+     #   data=list(zip(time_,data_))
+     #   data=pd.DataFrame(data, columns=["timestamp", "fluxes"])
+     #   print('data {0} and data_2[total_flux] {1}'.format(data,data2['total_flux']))
 
 
        # wrap around midnight
-        tt = ttrates.copy()
-        rates = { t.replace(
-            year=mid_start.year,
-            month=mid_start.month,
-            day=mid_start.day
-          ) : v
-          for t, v in zip(data['timestamp'], data['fluxes'])
-        }
-        tt.update(rates)
+#        tt = ttrates.copy()
+#        rates = { t.replace(
+#            year=mid_start.year,
+#            month=mid_start.month,
+#            day=mid_start.day
+#          ) : v
+#          for t, v in zip(data['timestamp'], data['fluxes'])
+#        }
+#        tt.update(rates)
 #        print('updated_tt {}'.format(tt))
         
 #        print(sum(tt.values())) #1/5,1/2,3/10 of the total number of daily tourists
 
-        beta_bp = 0.5
-        speed_mps = 1.0
+#        beta_bp = 0.5
+#        speed_mps = 1.0
       #      print('tt values',len(tt.values())) #I obtain 96 elements that seem to be right
       #      exit( )
       #      print('sources before update',sources)
       #      if 0==0:#updating sources from the file I have been given.
 
-        sources.update({
-          tag + '_IN' : {
-            'creation_dt' : self.creation_dt,
-            'creation_rate' : [ float(v) for v in tt.values() ],
-            'source_location' : {
-              'lat' : src_list[tag]['lat'],
-              'lon' : src_list[tag]['lon']
-            },
-            'pawns_from_weight': {
-              'tourist' : {
-                'beta_bp_miss' : beta_bp,
-                'speed_mps'    : speed_mps
-              }
-            }
-          }
-        })
-        print('sources',sources)
+#        sources.update({
+#          tag + '_IN' : {
+#            'creation_dt' : self.creation_dt,
+#            'creation_rate' : [ float(v) for v in tt.values() ],
+#            'source_location' : {
+#              'lat' : src_list[tag]['lat'],
+#              'lon' : src_list[tag]['lon']
+#            },
+#            'pawns_from_weight': {
+#              'tourist' : {
+#                'beta_bp_miss' : beta_bp,
+#                'speed_mps'    : speed_mps
+ #             }
+#            }
+#          }
+#        })
+#        print('sources',sources)
+#'''
 #############################################################ALBI###########################################################
-      else:
-        data = srcdata[[tag]].copy()
-        # wrap around midnight
-        tt = ttrates.copy()
-        rates = { t.replace(
-            year=mid_start.year,
-            month=mid_start.month,
-            day=mid_start.day
-          ) : v
-          for t, v in zip(data.index, data[tag].values)
-        }
-        tt.update(rates)
-  #      print('updated_tt {}'.format(tt))
-        
-  #      print(sum(tt.values())) #1/5,1/2,3/10 of the total number of daily tourists
+#      else:
+      data = srcdata[[tag]].copy()
+      # wrap around midnight
+      tt = ttrates.copy()
+      rates = { t.replace(
+          year=mid_start.year,
+          month=mid_start.month,
+          day=mid_start.day
+        ) : v
+        for t, v in zip(data.index, data[tag].values)
+      }
+      tt.update(rates)
+#      print('updated_tt {}'.format(tt))
+      
+#      print(sum(tt.values())) #1/5,1/2,3/10 of the total number of daily tourists
 
-        beta_bp = 0.5
-        speed_mps = 1.0
-  #      print('tt values',len(tt.values())) #I obtain 96 elements that seem to be right
-  #      exit( )
-  #      print('sources before update',sources)
-  #      if 0==0:#updating sources from the file I have been given.
+      beta_bp = 0.5
+      speed_mps = 1.0
+#      print('tt values',len(tt.values())) #I obtain 96 elements that seem to be right
+#      exit( )
+#      print('sources before update',sources)
+#      if 0==0:#updating sources from the file I have been given.
 
-        sources.update({
-          tag + '_IN' : {
-            'creation_dt' : self.creation_dt,
-            'creation_rate' : [ float(v) for v in tt.values() ],
-            'source_location' : {
-              'lat' : src_list[tag]['lat'],
-              'lon' : src_list[tag]['lon']
-            },
-            'pawns_from_weight': {
-              'tourist' : {
-                'beta_bp_miss' : beta_bp,
-                'speed_mps'    : speed_mps
-              }
+      sources.update({
+        tag + '_IN' : {
+          'creation_dt' : self.creation_dt,
+          'creation_rate' : [ float(v) for v in tt.values() ],
+          'source_location' : {
+            'lat' : src_list[tag]['lat'],
+            'lon' : src_list[tag]['lon']
+          },
+          'pawns_from_weight': {
+            'tourist' : {
+              'beta_bp_miss' : beta_bp,
+              'speed_mps'    : speed_mps
             }
           }
-        })
+        }
+      })
 
     # control
     df = srcdata.copy()
-    print('ci sono')
+#    print('ci sono')
     df = self.ms.locals(start, stop, citytag)
 
     #print(df)
