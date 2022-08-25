@@ -79,6 +79,8 @@ tools/venezia/*.service
 deepsort_ckpt.t7
 yolov5x.pt
 *.old
+venv/*
+work_*/
 
 # Python
 __pycache__/
