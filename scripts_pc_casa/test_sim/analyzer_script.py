@@ -159,7 +159,9 @@ class analyzer:
         sim: simulation object
         Description: saves df_dist_sim,df_norm_dist_sim, df_dist_real and df_norm_dist_real -> columns ['tag1','tag2','barrier1','barrier2','day','distance']
         They contain the Ward data for 1 day or the averaged period depending on the simulation.
-        Here there is an allineation between simulation and real data.'''
+        Here there is an allineation between simulation and real data.
+        self.dict_df_ward contains the files [barrier1,barrier2,tag1,tag2,distance] for each simulation and real data,
+        both normalized and no'''
         self.normalize_fluxes()
         t_dist_real = []
         t_dist_real_norm = []
@@ -261,23 +263,116 @@ class analyzer:
     def ward_plot(self,sim):
         '''Input:
         -----------------
-        Simulation object: ->'''
+        Simulation object: ->
+        Description:
+        ------------------
+        Plots the ward dendogram and produces the distance between real and sim ward graph both symmetric and no.
+        It saves these dictionaries whose keys are ['tag1-tag2'] for element in tagn, and values are the 
+        diagrammatic distance.
+        self.symmetric_ward_distance_sim_real,  
+        self.symmetric_ward_distance_sim_real_norm,
+        self.ward_distance_sim_real, 
+        self.ward_distance_sim_real are the output of interest
+
+        '''
         self.dist_type = 'euclidean'
         self.hca_method = 'ward'
         self.nan_t = 5 # %. droppa le barriers con troppi nan
         self.sm_window = 9 # smoothing window, deve essere dispari
         self.sm_order = 3 # smoothing polynomial order
         iconcolors = ['purple', 'orange', 'red', 'green', 'blue', 'pink', 'beige', 'darkred', 'darkpurple', 'lightblue', 'lightgreen', 'cadetblue', 'lightgray', 'gray', 'darkgreen', 'white', 'darkblue', 'lightred', 'black']
+        self.dict_distance_ward = dict.fromkeys(list(self.dict_df_ward.keys()))
+        self.dict_symmetric_distance_ward = dict.fromkeys(list(self.dict_df_ward.keys()))
+        
+        
         for k in list(self.dict_df_ward.keys()):
             fig = plt.figure(figsize=(30, 20))
             ax = fig.add_subplot(111)
-            linkg = sch.linkage(self.dict_df_ward[k]['distance'].values,method=self.hca_method)
+            linkg = sch.linkage(self.dict_df_ward[k]['distance'].values,method=self.hca_method,optimal_ordering = True)
+            self.dict_distance_ward[k], self.dict_symmetric_distance_ward[k] = calculate_distance_ward(linkg,sim.tags)
             sch.dendrogram(linkg, labels=sim.tags)
             plt.title(f'HCA dendrogram method: {self.hca_method}, case: {k}')
             plt.xticks(fontsize=7)
             plt.savefig(os.path.join(sim.state_basename,f'HCA dendrogram method_{hca_method}_case_{k}.png'))
             plt.show()
+        self.symmetric_ward_distance_sim_real = 0
+        self.symmetric_ward_distance_sim_real_norm = 0
+        self.ward_distance_sim_real = 0
+        self.ward_distance_sim_real = 0
+        'df_dist_sim':df_dist_sim,'df_dist_sim_norm':df_dist_sim_norm,'df_dist_real':df_dist_real,'df_dist_real_norm'
+        for k in list(self.dict_df_ward.keys()):
+            for k1 in list(self.dict_df_ward.keys()):
+                if k == 'df_dist_sim' and k2 == 'df_dist_real':
+                    for key in list(self.dict_symmetric_distance_ward[k]):
+                        self.symmetric_ward_distance_sim_real = self.symmetric_ward_distance_sim_real + self.dict_symmetric_distance_ward[k][key]
+                        self.ward_distance_sim_real = self.ward_distance_sim_real  + self.dict_distance_ward[k][key]
+                    self.symmetric_ward_distance_sim_real = self.symmetric_ward_distance_sim_real/2
+                    self.ward_distance_sim_real = self.ward_distance_sim_real/2
+                if k == 'df_dist_sim_norm' and k2 == 'df_dist_real_norm':
+                    for key in list(self.dict_symmetric_distance_ward[k]):
+                        self.symmetric_ward_distance_sim_real_norm = self.symmetric_ward_distance_sim_real_norm + self.dict_symmetric_distance_ward[k][key]
+                        self.ward_distance_sim_real = self.ward_distance_sim_real + self.dict_symmetric_distance_ward[k][key]
+                    self.symmetric_ward_distance_sim_real_norm = self.symmetric_ward_distance_sim_real_norm/2
+                    self.ward_distance_sim_real = self.ward_distance_sim_real/2
 
+    def calculate_distance_ward(z,labels):
+        '''Input:
+        ----------------------
+        z: list: np.shape(z) = [len(labels)-1,4] is linkg from sch.linkg
+        labels: list -> ordered list of barriers
+        Output:
+        ----------------------
+        dict_symmetric_distance 
+        dict_distance: dict -> keys (couples of indices 'k0-k1' of labels that are mapped in the name of the barriers)
+        values : distance between k0,k1 intended as the number of steps to go up to the first common descendent
+        '''
+        n = len(labels)
+        l = list(np.arange(labels))                                     
+        dict_binary = dict.fromkeys(l)
+        for k in list(dict_binary.keys()):
+            dict_binary[k] = [k]
+        for key,value in dict_binary.items():
+            list_control = []
+            for v in value:
+                for i in range(np.shape(z)[0]):
+                    if z[i,0] == v or z[i,1] == v and v not in list_control:
+                        value.append(n+i)
+                        if v not in list_control:
+                            list_control.append(v)
+        ### CALCULATING DISTANCE AND SYMMETRIC DISTANCE ###
+        list_length_cluster_path = []
+        for k in list(dict_binary.keys()):
+            list_length_cluster_path.append(len(dict_binary[k]))
+        max_depth = max(list_length_cluster_path)
+
+        print(dict_binary[0][1:-1])
+        list_couple_keys = []
+        for k0 in list(dict_binary.keys()):
+            for k1 in list(dict_binary.keys()):
+                list_couple_keys.append(str(k0)+'-'+str(k1))
+        dict_distance  = dict.fromkeys(list_couple_keys)
+        dict_symmetric_distance = dict.fromkeys(list_couple_keys)
+        for k0 in list(dict_binary.keys()):
+            for k1 in list(dict_binary.keys()):
+                c = 0
+                for v in dict_binary[k0][1:]:
+                    if v in dict_binary[k1][1:]:
+                        dict_distance[str(k0)+'-'+str(k1)] = c
+                        d = 0
+                        for v1 in  dict_binary[k1][1:]:
+                            if v1 in dict_binary[k0][1:]:
+                                dict_symmetric_distance[str(k0)+'-'+str(k1)] = max([c,d])
+                                break
+                            d = d + 1
+                    c = c +1
+
+
+        ward_distance = 0 
+        for key in list(dict_symmetric_distance.keys()):
+            ward_distance = ward_distance + dict_symmetric_distance[key]
+        ward_distance = ward_distance/2
+
+        return dict_symmetric_distance,dict_distance
 
 class barrier:
     '''Barrier class:
