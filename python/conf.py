@@ -56,11 +56,11 @@ class conf:
 
   def generate(self, start_date, stop_date, citytag):
     ####ALBI
-    try: 
-      self.wdir_sources_camera=os.path.join(os.environ['WORKSPACE'],'slides','work_ws','data','COVE flussi_pedonali 18-27 luglio.xlsx')
-      self.sources_from_camera=pd.read_excel(self.wdir_sources_camera, engine='openpyxl')
-    except Exception as e:
-      raise Exception('[conf] library load failed for cameras fluxes : {}'.format(e)) 
+#    try: 
+#      self.wdir_sources_camera=os.path.join(os.environ['WORKSPACE'],'slides','work_slides','data','COVE flussi_pedonali 18-27 luglio.xlsx')
+#      self.sources_from_camera=pd.read_excel(self.wdir_sources_camera, engine='openpyxl')
+#    except Exception as e:
+#      raise Exception('[conf] library load failed for cameras fluxes : {}'.format(e)) 
 ####
 
     #print(citytag)
