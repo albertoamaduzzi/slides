@@ -9,16 +9,18 @@ from multiprocessing import Pool
 import pandas as pd
 from datetime import datetime
 import warnings
+import matplotlib.pyplot as plt
+import seaborn as sns
 warnings.filterwarnings('ignore')   
 
-try:
-    sys.path.append(os.path.join(os.environ['WORKSPACE'], 'slides','script_pc_casa','test_sim'))
-    from simulator_script import *
-    from  sim_objects import *
-    from analyzer_script import * 
-    from classification_and_plotting import *
-except Exception as e:
-  raise Exception('library loading error : {}'.format(e)) from e
+#try:
+sys.path.append(os.path.join(os.environ['WORKSPACE'], 'slides','script_pc_casa','test_sim'))
+from simulator_script import simulator
+from sim_objects import configuration_handler,attraction,source
+from analyzer_script import analyzer,barrier  
+from classification_and_plotting import classifier,plotter
+#except Exception as e:
+#  raise Exception('library loading error : {}'.format(e)) from e
 
 
 
@@ -40,13 +42,13 @@ def first_configuration_sim_file():
   enter_parameters_simulation = dict.fromkeys(['config','config0','file_distances_real_data','dir_data','state_basename','start_date',
   'average_fluxes','attraction_activate','locals_','local_distribution','list_new_source','list_reset_source','list_change_source',
   'list_new_attractions','list_reset_attractions','list_change_attractions'])
-  enter_parameters_simulation['config'] =os.path.join(os.environ['WORKSPACE'],'slides','work_slides','conf_files') +'\\conf_venezia.json'
-  enter_parameters_simulation['config0'] = os.path.join(os.environ['WORKSPACE'],'slides','pvt','conf') +'\\conf.json.local.albi.make'
-  enter_parameters_simulation['file_distances_real_data'] = os.path.join(os.environ['WORKSPACE'],'slides','work_slides','data') +'\\COVE flussi_pedonali 18-27 luglio.xlsx'
-  enter_parameters_simulation['dir_data'] = os.path.join(os.environ['WORKSPACE'],'slides','work_slides','data') +'\\barriers_config.csv'
+  enter_parameters_simulation['config'] =os.path.join(os.environ['WORKSPACE'],'slides','work_slides','conf_files','conf_venezia.json') 
+  enter_parameters_simulation['config0'] = os.path.join(os.environ['WORKSPACE'],'slides','pvt','conf','conf.json.local.albi.make') 
+  enter_parameters_simulation['file_distances_real_data'] = os.path.join(os.environ['WORKSPACE'],'slides','work_slides','data','COVE flussi_pedonali 18-27 luglio.xlsx')
+  enter_parameters_simulation['dir_data'] = os.path.join(os.environ['WORKSPACE'],'slides','work_slides','data','barriers_config.csv') 
   enter_parameters_simulation['state_basename'] = os.path.join(os.environ['WORKSPACE'],'slides','work_slides')
   enter_parameters_simulation['start_date'] = '2021-07-14 23:00:00'
-  enter_parameters_simulation['stop_date'] = '2021-07-21 23:00:00'
+  enter_parameters_simulation['stop_date'] = '2021-07-15 22:59:00'
   enter_parameters_simulation['average_fluxes'] = True
   enter_parameters_simulation['attraction_activate'] = True 
   enter_parameters_simulation['locals_'] = True 
@@ -58,7 +60,7 @@ def first_configuration_sim_file():
   enter_parameters_simulation['list_reset_attractions'] = []
   enter_parameters_simulation['list_change_attractions'] = []
 
-  with open(os.path.join('slides','work_slides','conf_files')+'enter_parameters_simulation.json','w') as f:
+  with open(os.path.join(os.environ['WORKSPACE'],'slides','work_slides','conf_files','enter_parameters_simulation.json'),'w') as f:
       json.dump(enter_parameters_simulation,f)
   return enter_parameters_simulation
 
@@ -66,12 +68,9 @@ def first_configuration_sim_file():
 
 if __name__ == '__main__':
 
-
-
-
-
+    enter_parameters_simulation = first_configuration_sim_file()
     # initialize simulation parameters
-    sim = simulator()
+    sim = simulator(enter_parameters_simulation)
     sim.pick_day_input()
     sim.averaging_fluxes()
     sim.normalize_fluxes()
@@ -87,9 +86,9 @@ if __name__ == '__main__':
     ch.assign_new_attractions(sim.list_new_attractions,sim.data_barriers)
     ch.reset_attractions(sim.list_reset_attractions,sim.list_reset_attractions,sim.simcfgorig)
     ch.change_attractions(sim.list_change_attractions,sim.simcfgorig)
-    sim.simcfgorig = ch.assign_attractions_to_simcfgorig(sim.simcfgorig,sim)
+    sim.simcfgorig = ch.assign_attractions_to_simcfgorig(sim)
     # DEFINE OUTPUT
-    sim.assign_directory_state_basename(ch.dict_sources)
+#    sim.assign_directory_state_basename(ch.dict_sources)
     # the state_basename is being defined.
     # run the simulation
     sim.run_sim()
@@ -101,13 +100,14 @@ if __name__ == '__main__':
 #      print(f'Scan took {tscan}')
     # ANALISYS
     analisys = analyzer(sim)
-    analisys.produce_comparison_df(sim)
+    analisys.create_dict_barrier_sim_real(sim)
+#    analisys.produce_comparison_df(sim) # in alternative to the line before
     analisys.distance_csv_for_ward(sim)
     analisys.correlation_matrix_plot(sim)    
     analisys.ward_plot(sim)
     # clustering procedure
-    
-    
+    plott = plotter(sim,analisys)
+    mappa = plott.common_map(sim,ch)
     # plotting procedure
 
 
@@ -119,4 +119,3 @@ if __name__ == '__main__':
         enter_parameters_simulation = updated_configuration_sim_file
       main(enter_parameters_simulation)
     '''
-    

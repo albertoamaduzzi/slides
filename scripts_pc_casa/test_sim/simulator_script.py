@@ -9,6 +9,8 @@ from multiprocessing import Pool
 import pandas as pd
 from datetime import datetime
 import warnings
+import matplotlib.pyplot as plt
+import seaborn as sns
 warnings.filterwarnings('ignore')  
 try:
   sys.path.append(os.path.join(os.environ['WORKSPACE'], 'slides', 'bin'))
@@ -41,26 +43,7 @@ class simulator:
     name_attractions: str -> 'Farsetti_1_IN' (it must already contain the format present in barrier file)
     add_attractions_bool: bool -> True
     '''
-    def __init__(self,
-    config = os.path.join(os.environ['WORKSPACE'],'slides','work_slides','conf_files','conf_venezia.json'),
-    config0 = os.path.join(os.environ['WORKSPACE'],'slides','pvt','conf','conf.json.local.albi.make'),
-    file_distances_real_data = os.path.join(os.environ['WORKSPACE'],'slides','work_slides','data','COVE flussi_pedonali 18-27 luglio.xlsx'),
-    dir_data = os.path.join(os.environ['WORKSPACE'],'slides','work_slides','data','barriers_config.csv'),
-    state_basename = os.path.join(os.environ['WORKSPACE'],'slides','work_slides','output'),
-    wdir = os.path.join(os.environ['WORKSPACE'],'slides','work_slides','data'),
-    start_date = '2021-07-14 23:00:00',
-    stop_date ='2021-07-21 23:00:00',
-    average_fluxes = True ,
-    attraction_activate = True,
-    locals_ = True,
-    local_distribution = 'none',
-    list_new_source = ['Scalzi_2_IN','Scalzi_3_IN'],
-    list_reset_source = ['Costituzione_IN','Papadopoli_IN','Schiavoni_IN','LOCALS'],
-    list_change_source = ['Papadopoli_IN'],
-    list_new_attractions = ['Farsetti_1_OUT'] ,
-    list_reset_attractions = [],
-    list_change_attractions = []
-    ):
+    def __init__(self,enter_parameters_simulation):
 # FILE OF INTEREST
         config = enter_parameters_simulation['config']
         config0 = enter_parameters_simulation['config0']
@@ -68,7 +51,8 @@ class simulator:
         dir_data = enter_parameters_simulation['dir_data']
         state_basename = enter_parameters_simulation['state_basename']
         start_date = enter_parameters_simulation['start_date']
-        stop_date = enter_parameters_simulation['average_fluxes']
+        stop_date = enter_parameters_simulation['stop_date']
+        average_fluxes = enter_parameters_simulation['average_fluxes']
         attraction_activate = enter_parameters_simulation['attraction_activate']
         locals_ = enter_parameters_simulation['locals_']
         local_distribution = enter_parameters_simulation['local_distribution']
@@ -82,7 +66,7 @@ class simulator:
             self.simcfgorig = json.load(f)
         with open(config0, encoding='utf8') as g:
             self.simcfgorig0 = json.load(g)
-        self.simcfgorig0['work_dir'] = wdir
+        self.simcfgorig0['work_dir'] = state_basename
         self.df=pd.read_excel(file_distances_real_data, engine='openpyxl')
         self.dir_data = dir_data
         self.data_barriers = pd.read_csv(self.dir_data,';')
@@ -119,8 +103,17 @@ class simulator:
         self.nagents = 6
         self.chunksize = self.nsim // self.nagents
     # PLACE
-        self.citytag = 'venezia'
-    # SETTING THE FOLDERS REQUIRED
+        self.citytag = 'venezia'    # SETTING THE FOLDERS REQUIRED
+    # DUMPA IL FILE DI CONFIGURAZIONE CON LE VARIABILI LOCALI
+        self.simcfgorig['file_pro'] = os.path.join(os.environ['WORKSPACE'],'slides','vars','cart','venezia.pro')
+        self.simcfgorig['file_pnt'] = os.path.join(os.environ['WORKSPACE'],'slides','vars','cart','venezia.pnt')
+        self.simcfgorig['state_basename'] = os.path.join(os.environ['WORKSPACE'],'slides','work_slides')
+        self.simcfgorig['file_barrier'] = os.path.join(os.environ['WORKSPACE'],'slides','work_slides','data','barriers_config.csv')
+        self.simcfgorig['start_date'] = start_date
+        self.simcfgorig['stop_date'] = stop_date
+        with open(config, 'w',encoding='utf8') as f:
+            json.dump(self.simcfgorig,f)
+
 #        if not os.exists()
 
             ##### HANDLING DF (EXCEL FILE FROM REGION) #######
@@ -205,10 +198,8 @@ class simulator:
         timestamp contains just the hours if averaged'''
         if self.average_fluxes:
             self.df_norm_fluxes = self.df_avg.drop(columns = 'timestamp').apply(lambda x: x/sum(x))
-            self.df_norm_fluxes = self.df_avg['timestamp']
         else:
             self.df_norm_fluxes = self.df_day.drop(columns = 'timestamp').apply(lambda x: x/sum(x))
-            self.df_norm_fluxes = self.df_day['timestamp']
 
 
     def initialize_standard_correlation_matrix(self):
@@ -260,9 +251,14 @@ class simulator:
     def assign_directory_state_basename(self,dict_sources):
         '''Input:
         ------------------
-        directory_sources: str -> from the configuration handler class defines the ../work_slides as basename'''
+        directory_sources: str -> from the configuration handler class defines the ../work_slides as basename
+        This is the position where the new simulation is set. NOTE>
+        self.state_basename is where I put the results of the successive analysis.
+        However I should have also'''
         sourcs = 'src_'
         attrs = 'attr_'
+        count_src = 0
+        count_attrs = 0
         for k in list(dict_sources.keys()):
             if dict_sources[k].is_reset:
                 pass
@@ -270,10 +266,11 @@ class simulator:
                 sourcs = sourcs + k + '-'
         for k in list(self.list_new_attractions):
             attrs = attrs + k + '-'
-        self.sim_path = os.path.join(sourcs,attrs)
+        self.sim_path = sourcs +'--' + attrs
         self.state_basename = os.path.join(self.state_basename,self.sim_path)
-        
-        
+        if not os.path.exists(self.state_basename):
+            os.mkdir(self.state_basename)
+
     def run_sim(self):
         try:
             sys.path.append(os.path.join(os.environ['WORKSPACE'], 'slides', 'bin'))
@@ -289,7 +286,6 @@ class simulator:
         simcfg = cfg.generate(start_date = self.start_date, stop_date = self.stop_date, citytag = self.citytag)#(override_weights=w)
         # Adding piece where I change the sources instead of conf.py
         simcfgs = json.dumps(self.simcfgorig)
-        print(simulation.__dict__)
         s = simulation(simcfgs)
         print(s.sim_info())
         s.run()

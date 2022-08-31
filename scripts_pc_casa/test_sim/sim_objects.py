@@ -9,6 +9,7 @@ from multiprocessing import Pool
 import pandas as pd
 from datetime import datetime
 import warnings
+import seaborn as sns
 warnings.filterwarnings('ignore')  
 #### THESE CLASSES ARE USED FOR THE PREPROCESSING TO BE GIVEN TO THE SIMULATOR ####
 try:
@@ -308,26 +309,28 @@ class configuration_handler:
             self.dict_changed_attractions[a].weight = a.weight
         
     
-    def assign_attractions_to_simcfgorig(self,simcfgorig,sim_):
+    def assign_attractions_to_simcfgorig(self,sim_):
         '''Input: 
         simcfgorig: json_file
-        Description: for each source in dict_sources adds all the infos. Is called when all the sources are initialized'''
+        Description: for each source in dict_sources adds all the infos. Is called when all the sources are initialized
+        Then it returns simcfgorig of th simulation'''
         json_string = dict.fromkeys(list(self.dict_attractions.keys()))
         for a in self.dict_attractions.values():
             if a.is_changed:
-                simcfgorig['attractions'][a.name]['weight'] = a.weight
+                sim_.simcfgorig['attractions'][a.name]['weight'] = a.weight
             else:
-                simcfgorig['attractions'][a.name] = {'lat' : a.lat,'lon' : a.lon, 'weight' : a.weight, 'timecap' : a.time_cap, 'visit_time' : a.visit_time}
+                sim_.simcfgorig['attractions'][a.name] = {'lat' : a.lat,'lon' : a.lon, 'weight' : a.weight, 'timecap' : a.time_cap, 'visit_time' : a.visit_time}
       ### CREATION FILE PARAMETERS ATTRACTIONS ###
             json_string[a.name] = {'weight':a.weight,'timecap':a.time_cap,'visit_time':a.visit_time}
+        sim_.assign_directory_state_basename(self.dict_sources)
         if not os.path.exists(sim_.state_basename):
-            os.mkdir(sim.state_basename)            
+            os.mkdir(sim_.state_basename)            
         with open (os.path.join(sim_.state_basename,'attractions_present_simulation.json'),'w') as outfile:
             json.dump(json_string,outfile)
         ### INITIALIZE STATE_BASENAME###
-        simcfgorig['state_basename'] = os.path.join(sim_.state_basename,'venezia')
-
-        return simcfgorig
+        sim_.simcfgorig['state_basename'] = os.path.join(sim_.state_basename,'venezia')
+#        print('configuration_handler dict',self.__dict__)
+        return sim_.simcfgorig
         
 
 
