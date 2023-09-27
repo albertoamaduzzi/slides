@@ -65,8 +65,8 @@ bld/
 
 # Data
 *.csv
-*.pro
-*.pnt
+#*.pro
+#*.pnt
 *.plt
 *.log
 vars/conf/conf.json
