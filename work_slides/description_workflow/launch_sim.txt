@@ -1,3 +1,12 @@
+### EXECUTION ###
+
+
+
+
+
+
+
+
 ##############          PHILOSOPHY          #############
 
 The simulation depends on metadata contained in simcfgorig (a json file). 

@@ -207,7 +207,7 @@ class db_kml:
       if explore_kmeans:
         data = [ [ name, pro['lat'], pro['lon'] ] for name, pro in locations.items() ]
         df = pd.DataFrame(data, columns=['name', 'lat', 'lon'])
-        print(df)
+#        print(df)
 
         import matplotlib.pyplot as plt
         from sklearn.cluster import KMeans
@@ -226,7 +226,7 @@ class db_kml:
         kmeans.fit(X) # Compute k-means
         df['cluster_label'] = kmeans.fit_predict(X)
         centers = kmeans.cluster_centers_
-        print(df)
+ #       print(df)
         print(df.groupby('cluster_label').count())
 
         df.plot.scatter(x = 'lon', y = 'lat', c=df.cluster_label, s=50, cmap='viridis')
@@ -293,7 +293,7 @@ class db_kml:
       }
       for k,v in locations.items() if v['role'] == 'source'
     }
-    print('sources durante il kml_parse in db_kml',src)
+#    print('sources durante il kml_parse in db_kml',src)
     logger.info(f'Parsed {len(attr)} attractions {len(src)} sources')
 
     self.cities[citytag]['attractions'] = attr
@@ -436,10 +436,10 @@ class db_kml:
 
   def retrieve_data(self, citytag):
     city = self.cities[citytag]
-    print('retrieve_data of db_kml.py')
+#    print('retrieve_data of db_kml.py')
     if 'mid' not in city: raise Exception('mid not avalaible for {}'.format(citytag))
     kmlfile = self.wdir + '/attractions_{}.kml'.format(citytag)
-    print('kml file {}'.format(kmlfile))
+#    print('kml file {}'.format(kmlfile))
     if not os.path.exists(kmlfile) or True:
       try:
         logger.debug('Retrieving kml data for {}'.format(citytag))
@@ -469,8 +469,8 @@ class db_kml:
     return attr
 
   def get_sources(self, citytag):
-    print('get_sources from db_kml')
-    print('self.cities[citytag][valid]',self.cities[citytag]['valid'])
+#    print('get_sources from db_kml')
+#    print('self.cities[citytag][valid]',self.cities[citytag]['valid'])
     if not self.cities[citytag]['valid']:
       self.retrieve_data(citytag)
     return self.cities[citytag]['sources']

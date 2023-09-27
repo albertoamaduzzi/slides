@@ -414,3 +414,316 @@ for barrier in box_barriers:
 
 mappa.add_child(colormap)
 mappa.save(os.path.join(saving_dir,f'barriers_locality_{barrierp}.html'))
+
+
+
+
+
+
+
+
+
+
+
+    def map_with_plots(self,sim,ch,map_,analysis):
+          import altair as alt
+      import folium
+      import pandas as pd
+      import branca
+      print('map with plots')
+      coord_mat = {} 
+      ## START MAPPA ##      
+      mappa = folium.Map(location = self.center_coords,tiles='cartodbpositron', control_scale=True, zoom_start=self.zoom)
+      for s in self.tags:
+        try:
+          coords = list(self.coilsdf[self.coilsdf['Description']==s][['Lat','Lon']].values[0])
+          coord_mat[s] = coords
+        except IndexError:
+          print('the barrier {} is not present in the barriers'.format(s))
+#      print(coord_mat)
+      maxv, minv = np.max(self.dict_df_ward[self.list_keys_dict_df_ward[0]]['distance']), np.min(self.dict_df_ward[self.list_keys_dict_df_ward[0]]['distance'])
+      count_barriers = 0
+      for s in self.tags:
+        name = s[0] + s.split('_')[0][1:].lower() + '_' + s.split('_')[1] + '_' + s.split('_')[2]
+        if s in [x.upper() for x in list(ch.dict_sources.keys())]:
+          name = s[0] + s.split('_')[0][1:].lower() + '_' + s.split('_')[1] + '_' + s.split('_')[2]
+          if not ch.dict_sources[name].is_reset or ch.dict_sources[name].is_added or ch.dict_sources[name].is_changed or ch.dict_sources[name].is_default:
+            color = 'red'
+        elif s in [x.upper() for x in list(ch.dict_attractions.keys())]:       
+          name = s[0] + s.split('_')[0][1:].lower() + '_' + s.split('_')[1] + '_' + s.split('_')[2]
+          if not ch.dict_attractions[name].is_reset or ch.dict_attractions[name].is_added or  ch.dict_attractions[name].is_changed or ch.dict_attractions[name].is_default:
+            color = 'green'
+        else:
+            color = 'blue'
+        try:
+          # I use this as if  self.tags[count_barriers - 1] is not in the keys of coord_mat then I can add the coord_mat[s]           
+          if coord_mat[self.tags[count_barriers - 1]] == True:
+              print('the coord before')
+        except KeyError:
+          print(self.tags[count_barriers - 1],'is not present in coord mat, then I try with ',self.tags[count_barriers])
+          try:
+            two_charts_template = """
+            <!DOCTYPE html>
+            <html>
+            <head>
+              <script src="https://cdn.jsdelivr.net/npm/vega@{vega_version}"></script>
+              <script src="https://cdn.jsdelivr.net/npm/vega-lite@{vegalite_version}"></script>
+              <script src="https://cdn.jsdelivr.net/npm/vega-embed@{vegaembed_version}"></script>
+            </head>
+            <body>
+
+            <div id="vis1"></div>
+            <div id="vis2"></div>
+
+            <script type="text/javascript">
+              vegaEmbed('#vis1', {spec1}).catch(console.error);
+              vegaEmbed('#vis2', {spec2}).catch(console.error);
+            </script>
+            </body>
+            </html>
+            """      
+            if sim.pick_day:
+              d = {'sim': [],'real':[],'time':[],'color':[]}
+              df = pd.DataFrame(d)
+              try:
+                df['sim'] = analysis.sim_dataframe[s]
+                df['color'] = ['red' for x in range(len(analysis.sim_dataframe[s]))]
+                df['real'] = sim.df_day[s]
+                df['time'] = sim.df_day['timestamp']
+                c_sim = alt.Chart(df).mark_line().encode(x='time:N', y='sim:Q')
+                c_real = alt.Chart(df).mark_line().encode(x='time:N', y='real:Q',color = 'color:N',title = s)
+                chart1 = c_sim + c_real
+              except KeyError:
+                print(s,'is not present in either df_day or sim_dataframe')
+                print('keys sim_dataframe:\t',analysis.sim_dataframe.columns,'\nkeys df_day:\t',sim.df_day.columns)
+              d1 = {'difference correlation squared':[],'barrier':[]}
+              df1 = pd.DataFrame(d1)
+              try:
+                df1['difference correlation squared'] = analysis.dif_cor[s]
+                df1['barrier']= analysis.dif_cor.columns
+              except KeyError:
+                print(s,'is not present in analysis.dif_cor')
+                print('keys analysis.dif_cor:\t',analysis.dif_cor.columns)
+              chart2 = alt.Chart(df1).mark_line().encode(x='barrier:N', y='difference correlation squared:Q')
+              if self.windows:
+                if not os.path.exists(sim.state_basename + map_+ 'daily'):
+                  os.mkdir(sim.state_basename + map_+ 'daily')
+                with open(sim.state_basename + map_+ 'daily/' + 'comparison_sim_real_{}.html', 'w') as f:
+                  f.write(two_charts_template.format(
+                  vega_version=alt.VEGA_VERSION,
+                  vegalite_version=alt.VEGALITE_VERSION,
+                  vegaembed_version=alt.VEGAEMBED_VERSION,
+                  spec1=chart1.to_json(indent=None),
+                  spec2=chart2.to_json(indent=None),
+              ))
+                html_file = open(sim.state_basename + map_+ 'daily/' + 'comparison_sim_real_{}.html', 'r', encoding='utf-8')
+
+              else:
+                if not os.path.exists(sim.state_basename + map_+ 'daily'):
+                  os.mkdir(sim.state_basename + map_+ 'daily')                    
+                with open(sim.state_basename + map_+ 'daily\\' + 'comparison_sim_real_{}.html', 'w') as f:
+                  f.write(two_charts_template.format(
+                  vega_version=alt.VEGA_VERSION,
+                  vegalite_version=alt.VEGALITE_VERSION,
+                  vegaembed_version=alt.VEGAEMBED_VERSION,
+                  spec1=chart1.to_json(indent=None),
+                  spec2=chart2.to_json(indent=None),
+              ))
+                html_file = open(sim.state_basename + map_+ 'daily\\' + 'comparison_sim_real_{}.html', 'r', encoding='utf-8')
+                  
+            elif sim.average_fluxes:
+              d = {'sim':[],'real':[],'time':[],'color':[]}
+              df = pd.DataFrame(d)
+              try:
+                df['sim'] = analysis.sim_dataframe[s]
+                df['color'] = ['red' for x in range(len(analysis.sim_dataframe[s]))]
+                df['real'] = sim.df_avg[s]
+                df['time'] = sim.df_avg['timestamp']
+                c_sim = alt.Chart(df).mark_line().encode(x='time:N', y='sim:Q')
+                c_real = alt.Chart(df).mark_line().encode(x='time:N', y='real:Q',color = 'color:N',title = s)
+                chart1 = c_sim + c_real
+              except KeyError:
+                print(s,'is not present in either df_avg or sim_dataframe')
+                print('keys sim_dataframe:\t',analysis.sim_dataframe.columns,'\nkeys df_avg:\t',sim.df_avg.columns)
+              d1 = {'difference correlation squared':[],'barrier':[]}
+              df1 = pd.DataFrame(d1)
+              try:
+                df1['difference correlation squared'] = analysis.dif_cor[s]
+                df1['barrier']= analysis.dif_cor.columns
+              except KeyError:
+                print(s,'is not present in analysis.dif_cor')
+                print('keys analysis.dif_cor:\t',analysis.dif_cor.columns)
+              chart2 = alt.Chart(df1).mark_line().encode(x='barrier:N', y='difference correlation squared:Q')
+              if self.windows:
+                if not os.path.exists(sim.state_basename + map_+ 'averaged'):
+                  os.mkdir(sim.state_basename + map_+ 'averaged')
+                with open(sim.state_basename + map_+ 'averaged/' +'comparison_sim_real_{}.html'.format(s), 'w') as f:
+                  f.write(two_charts_template.format(
+                  vega_version=alt.VEGA_VERSION,
+                  vegalite_version=alt.VEGALITE_VERSION,
+                  vegaembed_version=alt.VEGAEMBED_VERSION,
+                  spec1=chart1.to_json(indent=None),
+                  spec2=chart2.to_json(indent=None),
+              ))
+                  
+                html_file = open(sim.state_basename + map_+ 'averaged/' +'comparison_sim_real_{}.html'.format(s), 'r', encoding='utf-8')
+
+              else:            
+                if not os.path.exists(sim.state_basename + map_+ 'averaged'):
+                  os.mkdir(sim.state_basename + map_+ 'averaged')
+                with open(sim.state_basename + map_+ 'averaged\\' +'comparison_sim_real_{}.html'.format(s), 'w') as f:
+                  f.write(two_charts_template.format(
+                  vega_version=alt.VEGA_VERSION,
+                  vegalite_version=alt.VEGALITE_VERSION,
+                  vegaembed_version=alt.VEGAEMBED_VERSION,
+                  spec1=chart1.to_json(indent=None),
+                  spec2=chart2.to_json(indent=None),
+              ))
+                html_file = open(sim.state_basename + map_+ 'averaged\\' +'comparison_sim_real_{}.html'.format(s), 'r', encoding='utf-8')
+            charts_code = html_file.read() 
+            
+            iframe = branca.element.IFrame(html=charts_code, width=1500, height=400)
+            print('I am adding at level 0 ',coord_mat[s])
+            popup = folium.Popup(iframe, max_width=2000)
+            folium.Marker(location = coord_mat[s], popup=popup).add_to(mappa)
+#            popup = folium.Popup(s,parse_html = True)
+#            folium.Marker(location = coord_mat[s], popup= popup, icon = folium.Icon(color=color)).add_to(mappa)
+
+          except KeyError:
+              print('cannot add barrier s',s)
+        try:
+          if count_barriers !=0 and coord_mat[self.tags[count_barriers]] != coord_mat[self.tags[count_barriers - 1]]:                
+            two_charts_template = """
+            <!DOCTYPE html>
+            <html>
+            <head>
+              <script src="https://cdn.jsdelivr.net/npm/vega@{vega_version}"></script>
+              <script src="https://cdn.jsdelivr.net/npm/vega-lite@{vegalite_version}"></script>
+              <script src="https://cdn.jsdelivr.net/npm/vega-embed@{vegaembed_version}"></script>
+            </head>
+            <body>
+
+            <div id="vis1"></div>
+            <div id="vis2"></div>
+
+            <script type="text/javascript">
+              vegaEmbed('#vis1', {spec1}).catch(console.error);
+              vegaEmbed('#vis2', {spec2}).catch(console.error);
+            </script>
+            </body>
+            </html>
+            """
+            if sim.pick_day:
+              d = {'sim': [],'real':[],'time':[],'color':[]}
+              df = pd.DataFrame(d)
+              try:
+                df['sim'] = analysis.sim_dataframe[s]
+                df['color'] = ['red' for x in range(len(analysis.sim_dataframe[s]))]
+                df['real'] = sim.df_day[s]
+                df['time'] = sim.df_day['timestamp']
+                c_sim = alt.Chart(df).mark_line().encode(x='time:N', y='sim:Q')
+                c_real = alt.Chart(df).mark_line().encode(x='time:N', y='real:Q',color = 'color:N',title = s)
+                chart1 = c_sim + c_real
+              except KeyError:
+                print(s,'is not present in either df_day or sim_dataframe')
+                print('keys sim_dataframe:\t',analysis.sim_dataframe.columns,'\nkeys df_day:\t',sim.df_day.columns)
+              d1 = {'difference correlation squared':[],'barrier':[]}
+              df1 = pd.DataFrame(d1)
+              try:
+                df1['difference correlation squared'] = analysis.dif_cor[s]
+                df1['barrier']= analysis.dif_cor.columns
+              except KeyError:
+                print(s,'is not present in analysis.dif_cor')
+                print('keys analysis.dif_cor:\t',analysis.dif_cor.columns)
+              chart2 = alt.Chart(df1).mark_line().encode(x='barrier:N', y='difference correlation squared:Q')
+              if self.windows:
+                if not os.path.exists(sim.state_basename + map_+ 'daily'):
+                  os.mkdir(sim.state_basename + map_+ 'daily')
+                with open(sim.state_basename + map_+ 'daily/' + 'comparison_sim_real_{}.html', 'w') as f:
+                  f.write(two_charts_template.format(
+                  vega_version=alt.VEGA_VERSION,
+                  vegalite_version=alt.VEGALITE_VERSION,
+                  vegaembed_version=alt.VEGAEMBED_VERSION,
+                  spec1=chart1.to_json(indent=None),
+                  spec2=chart2.to_json(indent=None),
+              ))
+                html_file = open(sim.state_basename + map_+ 'daily/' + 'comparison_sim_real_{}.html', 'r', encoding='utf-8')
+
+              else:
+                if not os.path.exists(sim.state_basename + map_+ 'daily'):
+                  os.mkdir(sim.state_basename + map_+ 'daily')
+                with open(sim.state_basename + map_+ 'daily\\' + 'comparison_sim_real_{}.html', 'w') as f:
+                  f.write(two_charts_template.format(
+                  vega_version=alt.VEGA_VERSION,
+                  vegalite_version=alt.VEGALITE_VERSION,
+                  vegaembed_version=alt.VEGAEMBED_VERSION,
+                  spec1=chart1.to_json(indent=None),
+                  spec2=chart2.to_json(indent=None),
+              ))
+
+                html_file = open(sim.state_basename + map_+ 'daily\\' + 'comparison_sim_real_{}.html', 'r', encoding='utf-8')
+                  
+            elif sim.average_fluxes:
+              d = {'sim':[],'real':[],'time':[],'color':[]}
+              df = pd.DataFrame(d)
+              try:
+                df['sim'] = analysis.sim_dataframe[s]
+                df['color'] = ['red' for x in range(len(analysis.sim_dataframe[s]))]
+                df['real'] = sim.df_avg[s]
+                df['time'] = sim.df_avg['timestamp']
+                c_sim = alt.Chart(df).mark_line().encode(x='time:N', y='sim:Q')
+                c_real = alt.Chart(df).mark_line().encode(x='time:N', y='real:Q',color = 'color:N',title = s)
+                chart1 = c_sim + c_real
+              except KeyError:
+                print(s,'is not present in either df_avg or sim_dataframe')
+                print('keys sim_dataframe:\t',analysis.sim_dataframe.columns,'\nkeys df_avg:\t',sim.df_avg.columns)
+              d1 = {'difference correlation squared':[],'barrier':[]}
+              df1 = pd.DataFrame(d1)
+              try:
+                df1['difference correlation squared'] = analysis.dif_cor[s]
+                df1['barrier']= analysis.dif_cor.columns
+              except KeyError:
+                print(s,'is not present in analysis.dif_cor')
+                print('keys analysis.dif_cor:\t',analysis.dif_cor.columns)
+              chart2 = alt.Chart(df1).mark_line().encode(x='barrier:N', y='difference correlation squared:Q')
+              if self.windows:
+                if not os.path.exists(sim.state_basename + map_+ 'averaged'):
+                  os.mkdir(sim.state_basename + map_+ 'averaged')
+                with open(sim.state_basename + map_+ 'averaged/' +'comparison_sim_real_{}.html'.format(s), 'w') as f:
+                  f.write(two_charts_template.format(
+                  vega_version=alt.VEGA_VERSION,
+                  vegalite_version=alt.VEGALITE_VERSION,
+                  vegaembed_version=alt.VEGAEMBED_VERSION,
+                  spec1=chart1.to_json(indent=None),
+                  spec2=chart2.to_json(indent=None),
+              ))
+                  
+                html_file = open(sim.state_basename + map_+ 'averaged/' +'comparison_sim_real_{}.html'.format(s), 'r', encoding='utf-8')
+
+              else:            
+                if not os.path.exists(sim.state_basename + map_+ 'averaged'):
+                  os.mkdir(sim.state_basename + map_+ 'averaged')
+                with open(sim.state_basename + map_+ 'averaged\\' +'comparison_sim_real_{}.html'.format(s), 'w') as f:
+                  f.write(two_charts_template.format(
+                  vega_version=alt.VEGA_VERSION,
+                  vegalite_version=alt.VEGALITE_VERSION,
+                  vegaembed_version=alt.VEGAEMBED_VERSION,
+                  spec1=chart1.to_json(indent=None),
+                  spec2=chart2.to_json(indent=None),))
+
+                html_file = open(sim.state_basename + map_+ 'averaged\\' +'comparison_sim_real_{}.html'.format(s), 'r', encoding='utf-8')
+            charts_code = html_file.read() 
+            iframe = branca.element.IFrame(html=charts_code, width=1500, height=400)
+            print('I am adding',coord_mat[s])
+            popup = folium.Popup(iframe, max_width=2000)
+            folium.Marker(location = coord_mat[s], popup=popup).add_to(mappa)
+#            popup = folium.Popup(s,parse_html = True)
+#            folium.Marker(location = coord_mat[s], popup= popup, icon = folium.Icon(color=color)).add_to(mappa)
+        except KeyError:
+          print('cannot add the barrier')
+      if self.windows:              
+        mappa.save(sim.state_basename + map_ +'barriers_correlation_distance_plots.html')
+      else:
+        mappa.save(sim.state_basename + map_ +'barriers_correlation_distance_plots.html')
+              
+        return True

@@ -81,6 +81,8 @@ yolov5x.pt
 *.old
 venv/*
 work_*/
+bin/
+build_*/
 
 # Python
 __pycache__/

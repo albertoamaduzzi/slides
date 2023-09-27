@@ -34,6 +34,7 @@ class configuration_handler:
     simcfgorig: file_json -> conf_venezia.json
     '''
     def __init__(self,
+                n_epoch,
                 list_new_source,
                 list_reset_source,
                 list_change_source,
@@ -43,7 +44,8 @@ class configuration_handler:
                 simcfgorig,
                 dict_sources = {},
                 dict_attractions = {},
-                list_delta_u_attractions = []): 
+                list_delta_u_attractions = [],
+                ): 
         # DICT SOURCES
         number_sources = ['1','2','3','4']
         self.list_sources_simcfgorig = []
@@ -52,7 +54,11 @@ class configuration_handler:
                 self.list_sources_simcfgorig.append(s_name.split('_')[0] + '_1_' + s_name.split('_')[1])
             else:
                 self.list_sources_simcfgorig.append(s_name)
-        self.dict_sources = dict.fromkeys(list(np.concatenate((list_new_source,list_reset_source,list_change_source,self.list_sources_simcfgorig))))
+#        self.dict_sources = dict.fromkeys(list(np.concatenate((list_new_source,list_reset_source,list_change_source,self.list_sources_simcfgorig))))
+        try:
+            self.dict_sources = dict.fromkeys(list(np.concatenate((list_new_source,list_reset_source,self.list_sources_simcfgorig))))
+        except ValueError:
+            self.dict_sources = dict.fromkeys(list(list_new_source))
         # DICT ATTRACTIONS
         for s_ in list(simcfgorig['sources'].keys()):
             self.dict_sources.pop(s_,None)
@@ -62,7 +68,8 @@ class configuration_handler:
         self.is_assigned_new_sources = False
         self.is_assigned_default_sources = False
         self.is_resetted_sources = False
-    
+        self.windows = True
+        self.n_epoch = n_epoch
         ######## HANDLE SOURCES #########
     
 
@@ -109,24 +116,90 @@ class configuration_handler:
         df_avg = file_csv inherited from simulations containing validation data.
                   '''
         for s_ in list_new_source:
-            s = source()
-            s.name = s_
-            s.is_added = True
-            s.creation_dt = 30
-            s.source_location = {'lat':data_barriers.loc[data_barriers['Description']==s_.upper()].iloc[0]['Lat'],'lon':data_barriers.loc[data_barriers['Description']==s_.upper()].iloc[0]['Lon']}
-            s.pawns_from_weight = {
-          'tourist':{'beta_bp_miss' : simcfgorig['sources']['Costituzione_IN']['pawns_from_weight']['tourist']['beta_bp_miss'],
-            'speed_mps': simcfgorig['sources']['Costituzione_IN']['pawns_from_weight']['tourist']['speed_mps']}}
-            s.creation_rate = []
-            for flux in df_avg[s_.upper()]:
-                for j in range(4):
-                    s.creation_rate.append(flux/4)
-            if len(s.creation_rate)!= 96:
-                print('la lunghezza della lista per la sorgente {0} è {1}'.format(s.name,len(s.creation_rate)))
-                exit( )
-            self.dict_sources[s.name] = s
+            print('assigning new sources:\t',list_new_source)
+            if 'Costituzione_1_IN' == s_ and not 'Piazzale_Roma_IN' in list_new_source: # NOTE: this decision is done as papadopoli contributes to costituzione in the sim, and also with scalzi_2,scalzi_3 
+                list_sources_to_agglomerate = ["SCALZI_2_IN","SCALZI_3_IN","Costituzione_1_IN"]
+                s = source()
+                s.name = s_
+                s.is_added = True
+                s.creation_dt = 30
+                s.source_location = {'lat':data_barriers.loc[data_barriers['Description']==s_.upper()].iloc[0]['Lat'],'lon':data_barriers.loc[data_barriers['Description']==s_.upper()].iloc[0]['Lon']}
+                s.pawns_from_weight = {
+            'tourist':{'beta_bp_miss' : 0,
+                'speed_mps': 1}}
+                s.creation_rate = []
+                list_flux_roma = np.zeros(96)
+                for s_ in list_sources_to_agglomerate:
+                    c = 0
+                    for flux in df_avg[s_.upper()]:
+                        for j in range(4):
+                            list_flux_roma[c] = list_flux_roma[c] + flux/4 
+                            c = c + 1
+                            
+                s.creation_rate = list(list_flux_roma)
+                print('s.creation_rate costituzione',s.creation_rate)                
+                if len(s.creation_rate)!= 96:
+                    print('la lunghezza della lista per la sorgente {0} è {1}'.format(s.name,len(s.creation_rate)))
+                    exit( )
+                self.dict_sources[s.name] = s
+
+            elif not 'Piazzale_Roma_IN' == s_:
+                print('assigning sources: source\t',s_)
+                s = source()
+                s.name = s_
+                s.is_added = True
+                s.creation_dt = 30
+                if s_ == 'Schiavoni_1_IN':
+                    s.creation_rate = [22.567046242405045,17.138238639159386,17.375692873795348,17.018392585466678,16.1996957691111,14.62937748501904,15.622877143647353,9.408416528479965,11.211719643860704,9.712439597619584,12.594390164178048,11.128288092081423,13.76933342689697,15.60265747676268,12.393624485620805,15.677489717996998,23.497527259245285,20.476383027321035,27.993698071742,31.35989023199272,33.7102351662263,48.040141379039696,53.72493964473563,44.544435265203354,72.44298298894365,64.6942200320617,86.49318288805077,91.74543314906906,101.6955741362462,101.1887524060395,95.9556512551255,122.92755072769285,130.8053020722569,113.10406564595918,120.19174931929774,116.46904136815164,124.35735959856409,134.52328714077908,106.86637449866716,135.08121726029643,118.10019513202614,107.93047228510738,111.20184189009244,114.15194763213678,94.02850471064964,94.28737675930063,98.77081955325602,93.04914051743982,111.38265728430908,92.79109239044665,87.06010827132188,79.83235476401494,80.8065638537392,102.82248457401325,107.19520123000879,117.35367097314239,112.52954045596756,104.4986330254436,116.30069041350178,137.8923447313935,136.54518938518615,129.0107632099219,135.2915438247804,122.79725548782682,119.23726024422552,118.53297490045412,139.9850980263819,115.14729654054806,111.79320260920161,120.49389578580944,125.87907529087362,118.6374413287923,107.44569986172839,109.88063925277136,112.94847174113106,98.74456307926333,98.22278370520722,103.94641423424324,96.27364945053532,80.17440037620416,101.63251810680582,75.04404104507152,80.82527372323783,71.35894426424534,67.19260320439516,63.578157050985105,59.332225353020405,59.351997173547176,57.266407349383236,49.64666865896931,45.88463651377644,41.647939604931985,32.62558146257313,28.663056246242306,24.8645088643431,24.173508191266148]
+                    s.source_location ={"lat": 45.433819,"lon": 12.344299}
+                    s.pawns_from_weight = {"tourist": {
+                    "beta_bp_miss": 0.5,
+                    "speed_mps": 1.0}}
+                else:
+                    s.source_location = {'lat':data_barriers.loc[data_barriers['Description']==s_.upper()].iloc[0]['Lat'],'lon':data_barriers.loc[data_barriers['Description']==s_.upper()].iloc[0]['Lon']}
+                    s.pawns_from_weight = {
+                    'tourist':{'beta_bp_miss' : 0,
+                    'speed_mps': 1}}
+                    s.creation_rate = []
+                    for flux in df_avg[s_.upper()]:
+                        for j in range(4):
+                            s.creation_rate.append(flux/4)
+                    if len(s.creation_rate)!= 96:
+                        print('la lunghezza della lista per la sorgente {0} è {1}'.format(s.name,len(s.creation_rate)))
+                        exit( )
+                self.dict_sources[s.name] = s
+                
+            elif 'Piazzale_Roma_IN' == s_:
+                list_sources_to_agglomerate = ["SCALZI_2_IN","SCALZI_3_IN"]
+                s = source()
+                s.name = 'Piazzale_Roma_IN'
+                s.is_added = True
+                s.creation_dt = 30
+                s.source_location = {'lat':45.440817,'lon':12.321442}
+                s.pawns_from_weight = {
+            'tourist':{'beta_bp_miss' : 0,
+                'speed_mps': 1}}
+                s.creation_rate = []
+                list_flux_roma = np.zeros(96)
+                for s_ in list_sources_to_agglomerate:
+                    c = 0
+                    for flux in df_avg[s_]:
+                        for j in range(4):
+                            list_flux_roma[c] = list_flux_roma[c] + flux/4 
+                            c = c + 1
+                            
+                s.creation_rate = list(list_flux_roma)                
+                if len(s.creation_rate)!= 96:
+                    print('la lunghezza della lista per la sorgente {0} è {1}'.format(s.name,len(s.creation_rate)))
+                    exit( )
+                self.dict_sources[s.name] = s
+            else:
+                pass
         self.is_assigned_new_sources = True
+            
         return True 
+    
+    
     def show_name_sources(self):
         for s in self.dict_sources.values():
             print(s.name)
@@ -156,24 +229,30 @@ class configuration_handler:
           "beta_bp_miss": 0,
           "start_node_lid": -1,
           "dest": -1}}
+                self.dict_sources[s.name] = s
             else:
-                s = source()
-                if any([n not in s_ for n in number_source]):
-                    s.name = s_.split('_')[0] + '_' + number_source[0] +'_' + s_.split('_')[1]
-                else:
-                    s.name = s_
-                s.is_reset = True
-                s.is_added = False
-                s.is_default = False
-                s.is_changed = False
-                try:
-                    s.pawns_from_weight = {'tourist':{'beta_bp_miss' : simcfgorig['sources']['Costituzione_IN']['pawns_from_weight']['tourist']['beta_bp_miss'],
-                    'speed_mps': simcfgorig['sources']['Costituzione_IN']['pawns_from_weight']['tourist']['speed_mps']}}
-                    s.source_location = {'lat':data_barriers.loc[data_barriers['Description']==s.name.upper()].iloc[0]['Lat'],'lon':data_barriers.loc[data_barriers['Description']==s.name.upper()].iloc[0]['Lon']}
-                except IndexError:
-                    print('source {} is not found in the barriers'.format(s_))
-        self.dict_sources[s.name] = s
-        self.is_resetted_sources = True
+                print('this time there are locals')
+                pass
+#            self.dict_sources[s.name] = s
+
+            '''
+            s = source()
+            if any([n not in s_ for n in number_source]):
+                s.name = s_.split('_')[0] + '_' + number_source[0] +'_' + s_.split('_')[1]
+            else:
+                s.name = s_
+            s.is_reset = True
+            s.is_added = False
+            s.is_default = False
+            s.is_changed = False
+            try:
+                s.pawns_from_weight = {'tourist':{'beta_bp_miss' : simcfgorig['sources']['Costituzione_IN']['pawns_from_weight']['tourist']['beta_bp_miss'],
+                'speed_mps': simcfgorig['sources']['Costituzione_IN']['pawns_from_weight']['tourist']['speed_mps']}}
+                s.source_location = {'lat':data_barriers.loc[data_barriers['Description']==s.name.upper()].iloc[0]['Lat'],'lon':data_barriers.loc[data_barriers['Description']==s.name.upper()].iloc[0]['Lon']}
+            except IndexError:
+                print('source {} is not found in the barriers'.format(s_))
+    self.dict_sources[s.name] = s
+    self.is_resetted_sources = True'''
 
     
      
@@ -182,6 +261,7 @@ class configuration_handler:
         '''Input: 
         simcfgorig: json_file
         Description: for each source in dict_sources adds all the infos. Is called when all the sources are initialized'''
+        print('dictionary sorces',self.dict_sources['LOCALS'].__dict__)
         for s in self.dict_sources.values():
             if s.is_added == True or s.is_changed == True:
                 simcfgorig['sources'][s.name ] = {'creation_dt' : 30,'creation_rate' : s.creation_rate,
@@ -192,13 +272,13 @@ class configuration_handler:
                                                   'creation_rate' : np.zeros(96).tolist(),
                                                   'source_location' : {'lat' : s.source_location['lat'],
                                                                        'lon' : s.source_location['lon']},
-                                                                       'pawns_from_weight': s.pawns_from_weight}
+                                                                       'pawns_from_weight': s.pawns_from_weight}                
             else:
                 simcfgorig['sources'][s.name] = {"source_type": s.source_type,
                                                  "creation_dt": 30,
                                                  "creation_rate": s.creation_rate,
-                                                 "pawns": s.pawns}
-                    
+                                                 "pawns": s.pawns_from_weight}
+                print(s.name,s.creation_rate,s.is_reset)
         return simcfgorig
                 
 
@@ -223,10 +303,45 @@ class configuration_handler:
                     elif value == 'lon':
                         a.lon = simcfgorig['attractions'][a.name][value]
                     elif value == 'visit_time':
-                        a.visit_time = simcfgorig['attractions'][a.name][value]
+                        # PUT VISIT TIME BY HAND
+                        if a.name == 'Campo_Santa_Margherita':
+                            a.visit_time = 20000
+                        else:    
+                            a.visit_time = simcfgorig['attractions'][a.name][value]
                 else:
                     if value == 'weight':
-                        a.weight = simcfgorig['attractions'][a.name][value]
+                        # INSERT SPECIFIC MODIFICATIONS COMMENT FOR ELIMINATION. DATA SUGGEST IT IS MORE ATTRACTIVE THEN THOUGHT
+                        if a.name == 'Campo_Santa_Margherita':
+#                            a.weight = list(np.zeros(24))
+                            a.weight = list(np.ones(24)*0.6)
+#                        elif a.name == 'Basilica_dei_Frari':
+#                            a.weight = list(np.zeros(24))
+#                            a.weight = list(np.ones(24)*0.3)
+                        elif a.name == 'Scuola_Grande_di_San_Rocco':
+                            a.weight = list(np.ones(24)*0.1)
+#                            a.weight = list(np.zeros(24))
+#                        elif a.name == 'Campo_San_Polo':
+#                            a.weight = list(np.zeros(24))
+#                            a.weight = list(np.ones(24)*0.3)
+                        elif a.name == 'Ponte_di_Rialto':
+#                            a.weight = list(np.zeros(24))
+                            a.weight = list(np.ones(24)*0.9)
+                        elif a.name == "Gallerie_dell'Accademia":
+                            a.weight = list(np.ones(24)*0.8)
+                        elif a.name == "Riva_degli_Schiavoni":
+                            a.weight = list(np.ones(24)*0.8)                        
+                        elif a.name == 'San_Marco':
+                            a.weight = list(np.ones(24))
+                            a.weight[:8] = list(np.ones(8)*0.6)
+#                            print('San Marco', a.weight)
+#                        elif a.name == 'Farsetti_1_IN':
+#                            a.weight = list(np.ones(24))                        
+                        elif a.name == 'Chiesa_di_San_Zaccaria':
+                            a.weight = list(np.ones(24))                        
+
+                        else:
+                            a.weight = simcfgorig['attractions'][a.name][value]
+#                            a.weight = list(np.zeros(24))
                     else:
                         a.time_cap = simcfgorig['attractions'][a.name][value]
             self.dict_attractions[a.name] = a
@@ -238,7 +353,7 @@ class configuration_handler:
     def assign_new_attractions(self,
                           list_new_attractions,
                           data_barriers,
-                          type_ = 'A'
+                          type_ = 'B'
                           ):
         '''Input:
         list_new_attractions: from the simulator
@@ -260,7 +375,7 @@ class configuration_handler:
             else:
                 a.weight = list(np.ones(24)*0.6)
             a.time_cap = list(np.ones(24)*1000)
-            a.visit_time = 280
+            a.visit_time = 3600
             self.dict_attractions[a_] = a
         return True
         
@@ -297,7 +412,7 @@ class configuration_handler:
         self.dict_changed_attractions = dict.fromkeys(list_change_attractions)
         for a_ in list_change_attractions:
             a = attraction()
-            a.name = s_
+            a.name = a_
             a.is_reset = False
             a.is_added = False
             a.is_default = False
@@ -309,28 +424,78 @@ class configuration_handler:
             self.dict_changed_attractions[a].weight = a.weight
         
     
-    def assign_attractions_to_simcfgorig(self,sim_):
+    def assign_attractions_to_simcfgorig(self,sim_,output_sim_,dict_dir,n_epoch):
         '''Input: 
         simcfgorig: json_file
         Description: for each source in dict_sources adds all the infos. Is called when all the sources are initialized
-        Then it returns simcfgorig of th simulation'''
+        Then it returns simcfgorig of th simulation
+        NOTE:
+        I have added as an argument n_epoch as otherwhise in the iteration I would os.path.join many times the state_basename via sim.assign_dir_basename'''
         json_string = dict.fromkeys(list(self.dict_attractions.keys()))
+        # HANDLE SOURCES FOR CONVENIENCE HERE
+        json_string_sources = dict.fromkeys(list(self.dict_sources.keys()))
+        for s in self.dict_sources.values():
+            if s.name != 'LOCALS':
+                json_string_sources[s.name] = {'creation_rate':s.creation_rate,'pawns_from_weight':s.pawns_from_weight}
+            else:
+                json_string_sources[s.name] = {'creation_rate':s.creation_rate,'pawns':s.pawns}
+                
+        # END HANDLING OF SOURCES HERE
         for a in self.dict_attractions.values():
             if a.is_changed:
                 sim_.simcfgorig['attractions'][a.name]['weight'] = a.weight
             else:
                 sim_.simcfgorig['attractions'][a.name] = {'lat' : a.lat,'lon' : a.lon, 'weight' : a.weight, 'timecap' : a.time_cap, 'visit_time' : a.visit_time}
-      ### CREATION FILE PARAMETERS ATTRACTIONS ###
+      ### CREATION FILE PARAMETERS ATTRACTIONS and SOURCES ###
             json_string[a.name] = {'weight':a.weight,'timecap':a.time_cap,'visit_time':a.visit_time}
-        sim_.assign_directory_state_basename(self.dict_sources)
-        if not os.path.exists(sim_.state_basename):
-            os.mkdir(sim_.state_basename)            
-        with open (os.path.join(sim_.state_basename,'attractions_present_simulation.json'),'w') as outfile:
-            json.dump(json_string,outfile)
+        ### HANDLE DIR ###
+        if n_epoch == 0:
+            sim_.assign_directory_state_basename(self.dict_sources)
+        if self.windows:
+            if self.n_epoch == 0:
+                dict_dir = '/dict_dir_{}'.format(0)
+            else:
+                dict_dir = dict_dir + '/dict_dir_{}'.format(self.n_epoch)
+        else:
+            if self.n_epoch == 0:
+                dict_dir = '\\dict_dir_{}'.format(0)
+            else:
+                dict_dir = dict_dir + '\\dict_dir_{}'.format(self.n_epoch)
+        if not os.path.exists(sim_.state_basename + dict_dir):
+            os.mkdir(sim_.state_basename + dict_dir)
+        if self.windows:        
+            with open (sim_.state_basename + dict_dir +'/attractions_present_simulation.json','w') as outfile:
+                json.dump(json_string,outfile,indent = 4)
+            with open (sim_.state_basename + dict_dir +'/sources_present_simulation.json','w') as outfile:
+                json.dump(json_string_sources,outfile,indent = 4)
+
+        else:        
+            with open (sim_.state_basename + dict_dir +'\\attractions_present_simulation.json','w') as outfile:
+                json.dump(json_string,outfile,indent = 4)
+            with open (sim_.state_basename + dict_dir +'\\sources_present_simulation.json','w') as outfile:
+                json.dump(json_string_sources,outfile,indent = 4)
+        
         ### INITIALIZE STATE_BASENAME###
-        sim_.simcfgorig['state_basename'] = os.path.join(sim_.state_basename,'venezia')
+        if self.windows:
+            if self.n_epoch == 0:
+                output_sim_ = '/output_sim_{}'.format(0)
+            else:
+                output_sim_ = output_sim_ + '/output_sim_{}'.format(self.n_epoch)
+        else:
+            if self.n_epoch == 0:
+                output_sim_ = '\\output_sim_{}'.format(0)
+            else:
+                output_sim_ = output_sim_ + '\\output_sim_{}'.format(self.n_epoch)
+        if not os.path.exists(sim_.state_basename + output_sim_):
+            os.mkdir(sim_.state_basename + output_sim_)
+        if self.windows:                
+            sim_.simcfgorig['state_basename'] = sim_.state_basename + output_sim_ + '/venezia'
+        else:                
+            sim_.simcfgorig['state_basename'] = sim_.state_basename + output_sim_ + '\\venezia'
+        sim_.path_output_sim = sim_.state_basename + output_sim_
+#        print('printing the attractions givento simcfgorig',sim_.simcfgorig['attractions'])
 #        print('configuration_handler dict',self.__dict__)
-        return sim_.simcfgorig
+        return sim_.simcfgorig,output_sim_,dict_dir
         
 
 

@@ -46,6 +46,7 @@ struct pysimulation
         s->dump_net_state();
         s->dump_population();
         s->dump_influxgrid();
+        s-> dump_barriers();
       }, [] () {});
     }
   }
@@ -62,6 +63,7 @@ struct pysimulation
   {
     if (s != nullptr)
     {
+      std::cout<<
       s->grid.dump_geojson(filename);
     }
   }

@@ -7,7 +7,7 @@ import numpy as np
 import multiprocessing as mp
 from multiprocessing import Pool
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, timedelta
 import warnings
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -62,6 +62,7 @@ class simulator:
         list_new_attractions = enter_parameters_simulation['list_new_attractions']
         list_reset_attractions = enter_parameters_simulation['list_reset_attractions']
         list_change_attractions = enter_parameters_simulation['list_change_attractions']
+        cnt_file = enter_parameters_simulation['file_cnt']
         with open(config, encoding='utf8') as f:
             self.simcfgorig = json.load(f)
         with open(config0, encoding='utf8') as g:
@@ -79,6 +80,7 @@ class simulator:
         self.dir_plot = os.path.join(state_basename,'plots')
         self.state_basename = os.path.join(state_basename)
         self.sim_path = ''
+        self.path_output_sim = ''
     # DATETIME SETTING
         self.time_format='%Y-%m-%d %H:%M:%S'
         self.start_date = start_date
@@ -91,6 +93,7 @@ class simulator:
         self.number_people = self.number_population + self.number_daily_tourist
     # SOURCES  
         self.list_new_sources = list_new_source
+        print('simulator initialization:\t',list_new_source,'enter parameter\t',enter_parameters_simulation['list_new_source'])
         self.list_reset_sources = list_reset_source
         self.list_change_sources = list_change_source
     # ATTRACTIONS
@@ -104,6 +107,8 @@ class simulator:
         self.chunksize = self.nsim // self.nagents
     # PLACE
         self.citytag = 'venezia'    # SETTING THE FOLDERS REQUIRED
+    # PC CONFIG
+        self.windows = True
     # DUMPA IL FILE DI CONFIGURAZIONE CON LE VARIABILI LOCALI
         self.simcfgorig['file_pro'] = os.path.join(os.environ['WORKSPACE'],'slides','vars','cart','venezia.pro')
         self.simcfgorig['file_pnt'] = os.path.join(os.environ['WORKSPACE'],'slides','vars','cart','venezia.pnt')
@@ -111,10 +116,10 @@ class simulator:
         self.simcfgorig['file_barrier'] = os.path.join(os.environ['WORKSPACE'],'slides','work_slides','data','barriers_config.csv')
         self.simcfgorig['start_date'] = start_date
         self.simcfgorig['stop_date'] = stop_date
+        self.simcfgorig['file_cnt'] = cnt_file
         with open(config, 'w',encoding='utf8') as f:
-            json.dump(self.simcfgorig,f)
+            json.dump(self.simcfgorig,f,indent = 4)
 
-#        if not os.exists()
 
             ##### HANDLING DF (EXCEL FILE FROM REGION) #######
 
@@ -124,28 +129,54 @@ class simulator:
         '''Description:
         Transforms the excel file in a dataframe columns = (timestamp,NAME_BARRIER_IN, NAME_BARRIER_OUT)
         Where timestamp takes values on the 24 hours after self.start_date
-        Is complementary to average_fluxes'''
+        Is complementary to average_fluxes.
+        NOTE: self.df_day is for simulation purposes: it will be used for analyses in the future
+        To plot data I need df_day_hrs_inv'''
         if self.pick_day:
             group = self.df.groupby('varco')
             self.df_day = pd.DataFrame()
             df_temp = pd.DataFrame()
+#            self.df_day_hrs_inv = pd.DataFrame()
+#            df_temp_hrs_inv = pd.DataFrame() 
             for g in group.groups:
                 try:
-                    df_temp['timestamp']=np.array(group.get_group(g)['timestamp'].copy(),dtype='datetime64[s]')
-                    df_temp[group.get_group(g).iloc[0]['varco']+'_IN'] = np.array(group.get_group(g)['direzione'].copy(),dtype=int)
-                    df_temp[group.get_group(g).iloc[0]['varco']+'_OUT'] = np.array(group.get_group(g)['Unnamed: 3'].copy(),dtype=int)  
+                    # DATAFRAME TO GIVE TO SOURCES FOR SIMULATION
+#                    l_= np.array(group.get_group(g)['timestamp'].copy(),dtype='datetime64[s]') #df_temp['timestamp']
+#                    df_temp['timestamp'] = l_-np.timedelta64(1, "h")
+#                    df_temp[group.get_group(g).iloc[0]['varco']+'_IN'] = np.array(group.get_group(g)['direzione'].copy(),dtype=int)
+#                    df_temp[group.get_group(g).iloc[0]['varco']+'_OUT'] = np.array(group.get_group(g)['Unnamed: 3'].copy(),dtype=int)
+                    # DATAFRAME FOR ANALYSIS REAL  
+                    df_temp['timestamp'] = np.array(group.get_group(g)['timestamp'].copy(),dtype='datetime64[s]') #df_temp_hrs_inv
+                    df_temp[group.get_group(g).iloc[0]['varco']+'_IN'] = np.array(group.get_group(g)['direzione'].copy(),dtype=int) #df_temp_hrs_inv
+                    df_temp[group.get_group(g).iloc[0]['varco']+'_OUT'] = np.array(group.get_group(g)['Unnamed: 3'].copy(),dtype=int) #df_temp_hrs_inv  
                 except:
+                    print('shape of df_temp {0} for barrier {1}'.format(np.shape(df_temp),g))
                     pass
                 start_date = datetime.strptime(self.start_date,self.time_format)
-                mask_day = [True if h.day==start_date.day else False for h in df_temp.timestamp]
+                stop_date = datetime.strptime(self.stop_date,self.time_format)
+                mask_day = [True if h>=start_date and h<=stop_date else False for h in df_temp.timestamp]
                 try:
-                    self.df_day['timestamp'] = df_temp.loc[mask_day]['timestamp']
-                    self.df_day[group.get_group(g).iloc[0]['varco']+'_IN'] = df_temp[mask_day][group.get_group(g).iloc[0]['varco']+'_IN']
-                    self.df_day[group.get_group(g).iloc[0]['varco']+'_OUT'] = df_temp[mask_day][group.get_group(g).iloc[0]['varco']+'_OUT']
+                    # DATAFRAME FOR ANALYSIS OF REAL DATA
+                    self.df_day['timestamp'] = df_temp.loc[mask_day]['timestamp']    #df_day_hrs_inv
+                    self.df_day[group.get_group(g).iloc[0]['varco']+'_IN'] = df_temp[mask_day][group.get_group(g).iloc[0]['varco']+'_IN'] #df_day_hrs_inv
+                    self.df_day[group.get_group(g).iloc[0]['varco']+'_OUT'] = df_temp[mask_day][group.get_group(g).iloc[0]['varco']+'_OUT'] #df_day_hrs_inv
+                    # DATAFRAME TO GIVE TO THE SIMULATION
+#                    self.df_day['timestamp'] = df_temp.loc[mask_day]['timestamp']  
+#                    self.df_day[group.get_group(g).iloc[0]['varco']+'_IN'] = df_temp[mask_day][group.get_group(g).iloc[0]['varco']+'_IN']
+#                    self.df_day[group.get_group(g).iloc[0]['varco']+'_OUT'] = df_temp[mask_day][group.get_group(g).iloc[0]['varco']+'_OUT']
                 except KeyError:
                     print(g,'in not found as a barrier')
+                self.tags = list(df_temp.columns.drop('timestamp'))
+                self.tagn = len(self.tags)
+            if self.windows:
+#                self.df_day_hrs_inv.to_csv(os.path.join(os.environ['WORKSPACE'],'slides','work_slides','data')+'/dataframe_real_data_pick_day_{}_hrs_inv.csv'.format(self.start_date.split(' ')[0]),';')                
+                self.df_day.to_csv(os.path.join(os.environ['WORKSPACE'],'slides','work_slides','data')+'/dataframe_real_data_pick_day_{}.csv'.format(self.start_date.split(' ')[0]),';')
+            else:
+#                self.df_day_hrs_inv.to_csv(os.path.join(os.environ['WORKSPACE'],'slides','work_slides','data')+'\\dataframe_real_data_pick_day_{}_hrs_inv.csv'.format(self.start_date.split(' ')[0]),';')                
+                self.df_day.to_csv(os.path.join(os.environ['WORKSPACE'],'slides','work_slides','data')+'\\dataframe_real_data_pick_day_{}.csv'.format(self.start_date.split(' ')[0]),';')
         else:
             print('This method is useless as I have chosen to average fluxes')
+
         return self
 
     def averaging_fluxes(self):
@@ -156,11 +187,19 @@ class simulator:
         if self.average_fluxes:
             group=self.df.groupby('varco')
             df_temp = pd.DataFrame()
+ #           df_temp_hrs_inv = pd.DataFrame() 
+
             for g in group.groups:
                 try:
-                    df_temp['timestamp']=np.array(group.get_group(g)['timestamp'].copy(),dtype='datetime64[s]')
-                    df_temp[group.get_group(g).iloc[0]['varco']+'_IN'] = np.array(group.get_group(g)['direzione'].copy(),dtype=int)
-                    df_temp[group.get_group(g).iloc[0]['varco']+'_OUT'] = np.array(group.get_group(g)['Unnamed: 3'].copy(),dtype=int)  
+                    # DATAFRAME DA DARE IN PASTO ALLA SIMULAZIONE IN CUI I DATI SONO ANTICIPATI DI 1 ORA PER CREARLI E MISURARLI ALL'ORARIO ESATTO
+#                    l_= np.array(group.get_group(g)['timestamp'].copy(),dtype='datetime64[s]') #df_temp['timestamp']
+#                    df_temp['timestamp'] = l_-np.timedelta64(1, "h")
+#                    df_temp[group.get_group(g).iloc[0]['varco']+'_IN'] = np.array(group.get_group(g)['direzione'].copy(),dtype=int)
+#                    df_temp[group.get_group(g).iloc[0]['varco']+'_OUT'] = np.array(group.get_group(g)['Unnamed: 3'].copy(),dtype=int)
+                    # DATAFRAME DA TENERLI PER LE ANALISI
+                    df_temp['timestamp']=np.array(group.get_group(g)['timestamp'].copy(),dtype='datetime64[s]') #df_temp_hrs_inv
+                    df_temp[group.get_group(g).iloc[0]['varco']+'_IN'] = np.array(group.get_group(g)['direzione'].copy(),dtype=int) #df_temp_hrs_inv
+                    df_temp[group.get_group(g).iloc[0]['varco']+'_OUT'] = np.array(group.get_group(g)['Unnamed: 3'].copy(),dtype=int) #df_temp_hrs_inv  
                 except:
                     pass
             weekend_mask = [True if h.weekday()>4 else False for h in df_temp.timestamp]
@@ -168,28 +207,57 @@ class simulator:
             if len(weekend_mask) == 0:
                 print('We are averaging during over week days')
                 df_temp = df_temp.loc[week_mask]
+#                df_temp_hrs_inv = df_temp_hrs_inv.loc[week_mask]
                 h_mask = np.arange(24)
                 self.tags = list(df_temp.columns.drop('timestamp'))
                 self.tagn = len(self.tags)
                 self.df_avg = pd.DataFrame(data=tuple(np.empty([24,self.tagn])),columns = self.tags)
+#                self.df_avg_hrs_inv = pd.DataFrame(data=tuple(np.empty([24,self.tagn])),columns = self.tags)
                 count_hour = 0
                 for e in h_mask:
                     mask = [True if h.hour==e else False for h in df_temp.timestamp]                                          
                     self.df_avg.iloc[e][self.tags] = df_temp[self.tags].loc[mask].mean()
+ #                   self.df_avg_hrs_inv.iloc[e][self.tags] = df_temp_hrs_inv[self.tags].loc[mask].mean()
                 time_ = np.unique([h.hour if h.hour else False for h in df_temp.timestamp]).tolist()
+                time_hrs_inv = np.unique([h.hour if h.hour else False for h in df_temp_hrs_inv.timestamp]).tolist()
+                
                 self.df_avg['timestamp'] = time_
+#                self.df_avg_hrs_inv['timestamp'] = time_hrs_inv
+                
+                if self.windows:
+                    self.df_avg.to_csv(os.path.join(os.environ['WORKSPACE'],'slides','work_slides','data')+'/dataframe_real_data_avg_week_days{}.csv'.format(self.start_date.split(' ')[0]),';')
+#                    self.df_avg_hrs_inv.to_csv(os.path.join(os.environ['WORKSPACE'],'slides','work_slides','data')+'/dataframe_real_data_avg_week_days{}_hrs_inv.csv'.format(self.start_date.split(' ')[0]),';')
+                else:
+                    self.df_avg.to_csv(os.path.join(os.environ['WORKSPACE'],'slides','work_slides','data')+'\\dataframe_real_data_avg_week_days{}.csv'.format(self.start_date.split(' ')[0]),';')                
+#                    self.df_avg_hrs_inv.to_csv(os.path.join(os.environ['WORKSPACE'],'slides','work_slides','data')+'\\dataframe_real_data_avg_week_days{}_hrs_inv.csv'.format(self.start_date.split(' ')[0]),';')                
             else:
                 print('We are averaging over week-end days')
                 df_temp = df_temp.loc[weekend_mask]
+                df_temp_hrs_inv = df_temp_hrs_inv.loc[weekend_mask]
                 h_mask = np.arange(24)
                 self.tags = list(df_temp.columns.drop('timestamp'))
                 self.tagn = len(self.tags)
                 self.df_avg = pd.DataFrame(data=tuple(np.empty([24,self.tagn])),columns = self.tags)
+                self.df_avg_hrs_inv = pd.DataFrame(data=tuple(np.empty([24,self.tagn])),columns = self.tags)
                 for e in h_mask:
                     mask = [True if h.hour==e else False for h in df_temp.timestamp]                                          
                     self.df_avg.iloc[e][self.tags] = df_temp[self.tags].loc[mask].mean()
+                    self.df_avg_hrs_inv.iloc[e][self.tags] = df_temp_hrs_inv[self.tags].loc[mask].mean()
+
                 time_ = np.unique([h.hour if h.hour else False for h in df_temp.timestamp]).tolist()
+                time_hrs_inv = np.unique([h.hour if h.hour else False for h in df_temp_hrs_inv.timestamp]).tolist()
+
                 self.df_avg['timestamp'] = time_   
+                self.df_avg_hrs_inv['timestamp'] = time_hrs_inv
+ 
+                if self.windows:
+                    self.df_avg.to_csv(os.path.join(os.environ['WORKSPACE'],'slides','work_slides','data')+'/dataframe_real_data_avg_weekend_days{}.csv'.format(self.start_date.split(' ')[0]),';')
+                    self.df_avg_hrs_inv.to_csv(os.path.join(os.environ['WORKSPACE'],'slides','work_slides','data')+'/dataframe_real_data_avg_weekend_days{}_hrs_inv.csv'.format(self.start_date.split(' ')[0]),';')
+
+                else:
+                    self.df_avg.to_csv(os.path.join(os.environ['WORKSPACE'],'slides','work_slides','data')+'\\dataframe_real_data_avg_weekend_days{}.csv'.format(self.start_date.split(' ')[0]),';')
+                    self.df_avg_hrs_inv.to_csv(os.path.join(os.environ['WORKSPACE'],'slides','work_slides','data')+'\\dataframe_real_data_avg_weekemd_days{}_hrs_inv.csv'.format(self.start_date.split(' ')[0]),';')                
+
         return self 
 
     def normalize_fluxes(self):
@@ -267,6 +335,8 @@ class simulator:
         for k in list(self.list_new_attractions):
             attrs = attrs + k + '-'
         self.sim_path = sourcs +'--' + attrs
+        if self.pick_day:
+            self.sim_path = self.sim_path + self.start_date.split(' ')[0] + '_' + self.start_date.split(' ')[1].split(':')[0] 
         self.state_basename = os.path.join(self.state_basename,self.sim_path)
         if not os.path.exists(self.state_basename):
             os.mkdir(self.state_basename)

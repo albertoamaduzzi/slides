@@ -1,0 +1,62 @@
+{
+  "Campo San Polo": {
+    "lat": 45.4376935,
+    "lon": 12.3303509,
+    "weight": 1.0,
+    "opening_timetable": "",
+    "closing_days": "",
+    "active_dates": [],
+    "capacity": 1000,
+    "visit_time": 15
+  },
+  "Campo della Pescaria": {
+    "lat": 45.4398563,
+    "lon": 12.3343668,
+    "weight": 1.0,
+    "opening_timetable": "",
+    "closing_days": "",
+    "active_dates": [],
+    "capacity": 1000,
+    "visit_time": 15
+  },
+  "Basilica dei Frari": {
+    "lat": 45.435471,
+    "lon": 12.327976,
+    "weight": 1.0,
+    "opening_timetable": "",
+    "closing_days": "",
+    "active_dates": [],
+    "capacity": 1000,
+    "visit_time": 15
+  },
+  "San Marco": {
+    "lat": 45.433292,
+    "lon": 12.339956,
+    "weight": 1.0,
+    "opening_timetable": "",
+    "closing_days": "",
+    "active_dates": [],
+    "capacity": 1000,
+    "visit_time": 15
+  },
+  "Ponte di Rialto": {
+    "lat": 45.4384449,
+    "lon": 12.3358942,
+    "weight": 1.0,
+    "opening_timetable": "",
+    "closing_days": "",
+    "active_dates": [],
+    "capacity": 1000,
+    "visit_time": 15
+  },
+  "Chiesa di San Francesco": {
+    "lat": 45.438907,
+    "lon": 12.349444,
+    "weight": 1.0,
+    "opening_timetable": "",
+    "closing_days": "",
+    "active_dates": [],
+    "capacity": 1000,
+    "visit_time": 15
+  }
+}

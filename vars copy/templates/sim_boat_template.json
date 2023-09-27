@@ -1,0 +1,15 @@
+{
+  "file_pro"        : "/home/aamad/codice/scr-data/vars/cart/venice_canals.pro",
+  "file_pnt"        : "/home/aamad/codice/scr-data/vars/cart/venice_canals.pnt",
+  "file_polygons"   : "/home/aamad/codice/scr-data/vars/extra/canals_polygons.geojson",
+
+  "enable_polygons" : true,
+  "enable_population" : true,
+
+  "cell_side_m": 50,
+  "dt": 10,
+  "sampling_dt": 60,
+
+  "enable_gui": true,
+  "sampling_graphics": 20
+}

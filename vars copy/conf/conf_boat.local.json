@@ -1,0 +1,46 @@
+{
+  "data_waterbarriers" : {
+    "host": "10.245.0.200",
+    "port": 8086,
+    "user": "influx_admin_user",
+    "password": "ZeKfd6f.dJue54k",
+    "database": "mindicity",
+    "cam_list": [
+      "SC02_S",
+      "SC12_N",
+      "SC16_N",
+      "SC36_S",
+      "SC38_W",
+      "SC26_S"
+    ],
+    "boat_type":[
+      "VaporettoACTV",
+      "Taxi"
+    ]
+  },
+
+  "data_gtfs" : {
+    "output_dir" : "gtfs_data",
+
+    "from_url": {
+      "base_url"      : "http://actv.avmspa.it/sites/default/files/attachments/opendata/navigazione/",
+      "data_dir"      : "actv_data"
+    }
+  },
+
+  "data_tides" : {
+    "host": "10.245.0.200",
+    "port": 8084,
+    "user": "influx_admin_user",
+    "password": "ZeKfd6f.dJue54k",
+    "database": "mindicity",
+    "stationid_list": [
+      "01025",
+      "01029",
+      "01045"
+    ]
+  },
+
+  "work_dir" : "/home/ale/Code/scr-data/work_ws/boat",
+  "remove_local_output" : false
+}

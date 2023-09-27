@@ -1,0 +1,61 @@
+{
+  "data_pixel" : {
+    "host": "10.245.0.200",
+    "port": 3307,
+    "user": "readuser",
+    "password": "ovMQU%Di2@8&d0m",
+    "database": "tim",
+    "toi_list_file": "toi_list.csv"
+  },
+
+  "data_barriers" : {
+    "host": "10.245.0.200",
+    "port": 3306,
+    "user": "readuser",
+    "password": "SnKC!7c4CEdQF$EC",
+    "database": "default",
+    "file_barriers": "../vars/extra/venice_barriers.csv",
+    "cam_list": [
+      "PAPADOPOLI_1_IN",
+      "DANIELI_1_IN",
+      "COSTITUZIONE_1_IN",
+      "SCALZI_2_IN",
+      "SCALZI_3_IN"
+    ]
+  },
+
+  "data_gtfs" : {
+    "output_dir" : "gtfs_data",
+
+    "from_url": {
+      "base_url" : "http://actv.avmspa.it/sites/default/files/attachments/opendata/navigazione/",
+      "data_dir" : "actv_data"
+    },
+
+    "real_time" : {
+      "host": "10.245.0.200",
+      "port": 8086,
+      "user": "influx_admin_user",
+      "password": "ZeKfd6f.dJue54k",
+      "database": "mindicity"
+    }
+  },
+
+  "data_commuters" : {
+    "host": "10.245.0.200",
+    "port": 3307,
+    "user": "readuser",
+    "password": "ovMQU%Di2@8&d0m",
+    "database": "tim",
+    "toi_list_file": "toi_list.csv",
+    "source_list":{
+      "STATION":{
+        "lat": 45.440791,
+        "lon": 12.321280
+      }
+    }
+  },
+
+  "work_dir" : "/home/ale/Code/scr-data/work_ws/walker",
+  "remove_local_output" : false
+}

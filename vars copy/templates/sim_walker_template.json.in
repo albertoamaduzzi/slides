@@ -1,0 +1,15 @@
+{
+  "file_pro"        : "$ENV{WORKSPACE}/scr-data/vars/cart/venice.pro",
+  "file_pnt"        : "$ENV{WORKSPACE}/scr-data/vars/cart/venice.pnt",
+  "file_cnt"        : "$ENV{WORKSPACE}/scr-data/vars/extra/venice.fluxes",
+  "file_polygons"   : "$ENV{WORKSPACE}/scr-data/vars/extra/venice_polygons.geojson",
+
+  "enable_polygons" : true,
+  "enable_population" : true,
+
+  "dt": 10,
+  "sampling_dt": 60,
+
+  "enable_gui": true,
+  "sampling_graphics": 20
+}

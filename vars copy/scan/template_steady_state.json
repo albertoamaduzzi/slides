@@ -1,0 +1,273 @@
+{
+  "barrier_list" : [
+    "RIALTO_1_IN",
+    "SANTASOFIA_1_IN",
+    "CAFOSCARI_1_IN",
+    "CONTARINI_1_IN",
+    "MADONETA_1_IN"
+  ],
+  "cam_dump_dt"       : 600,
+  "enable_population" : false,
+  "enable_netstate"   : false,
+  "state_basename"    : "dummy",
+  "dt"                : 10,
+  "sampling_dt"       : 60,
+  "enable_gui"        : true,
+  "sampling_graphics" : 20,
+
+  "start_date" : "2020-09-15 00:00:00",
+  "stop_date"  : "2020-09-15 23:00:00",
+
+  "attractions": {
+    "Campo San Polo": {
+      "lat": 45.4376935,
+      "lon": 12.3303509,
+      "weight": 1.0,
+      "timecap": [5000],
+      "visit_time": 15
+    },
+    "Campo della Pescaria": {
+      "lat": 45.4398563,
+      "lon": 12.3343668,
+      "weight": 1.0,
+      "timecap": [1000],
+      "visit_time": 15
+    },
+    "Basilica dei Frari": {
+      "lat": 45.4374964,
+      "lon": 12.3265172,
+      "weight": 1.0,
+      "timecap": [1000],
+      "visit_time": 30
+    },
+    "San Marco": {
+      "lat": 45.4344323,
+      "lon": 12.3395635,
+      "weight": 1.0,
+      "timecap": [6000],
+      "visit_time": 60
+    },
+    "Ponte di Rialto": {
+      "lat": 45.4384449,
+      "lon": 12.3358942,
+      "weight": 1.0,
+      "timecap": [500],
+      "visit_time": 15
+    },
+    "Galleria dell'Accademia": {
+      "lat": 45.431082,
+      "lon": 12.328085,
+      "weight": 1.0,
+      "timecap": [1000],
+      "visit_time": 120
+    },
+    "Peggy Guggenheim": {
+      "lat": 45.430821,
+      "lon": 12.331441,
+      "weight": 1.0,
+      "timecap": [1000],
+      "visit_time": 120
+    },
+    "Ghetto Ebraico": {
+      "lat": 45.444475,
+      "lon": 12.325497,
+      "weight": 1.0,
+      "timecap": [5000],
+      "visit_time": 30
+    },
+    "Arsenale": {
+      "lat" : 45.435625,
+      "lon" : 12.349309,
+      "weight": 1.0,
+      "timecap": [1000],
+      "visit_time": 90
+    }
+  },
+  "sources": {
+    "LOCALS": {
+      "is_control": false,
+      "creation_dt": 30,
+      "creation_rate": [
+        10000
+      ],
+      "pawns": {
+        "locals": {
+          "alpha_we":1.0,
+          "beta_bp_miss": 0.5,
+          "start_node_lid": -1,
+          "dest": -1
+        }
+      }
+    },
+    "PAPADOPOLI_1_IN_t": {
+      "creation_dt": 30,
+      "creation_rate": [
+        1000
+      ],
+      "source_location":{
+            "lat":45.43789,
+            "lon":12.32116
+        },
+      "pawns_from_weight": {
+        "tourist_t": {
+        "alpha_we":1.0,
+        "beta_bp_miss": 0.5,
+        "speed_mps": 0.5
+        }
+      }
+    },
+    "PAPADOPOLI_1_IN_w":{
+      "creation_dt": 30,
+      "creation_rate": [
+        1000
+      ],
+      "source_location":{
+            "lat":45.43789,
+            "lon":12.32116
+        },
+      "pawns_from_weight": {
+        "tourist_w": {
+        "alpha_we":1.0,
+        "beta_bp_miss": 0.5,
+        "speed_mps": 0.5
+        }
+      }
+    },
+    "DANIELI_1_IN_t": {
+      "creation_dt": 30,
+      "creation_rate": [
+        1000
+      ],
+      "source_location":{
+            "lat":45.43383,
+            "lon":12.34214
+        },
+      "pawns_from_weight": {
+        "tourist_t": {
+        "alpha_we":1.0,
+        "beta_bp_miss": 0.5,
+        "speed_mps": 0.5
+        }
+      }
+    },
+    "DANIELI_1_IN_w": {
+      "creation_dt": 30,
+      "creation_rate": [
+        1000
+      ],
+      "source_location":{
+            "lat":45.43383,
+            "lon":12.34214
+        },
+      "pawns_from_weight": {
+        "tourist_w": {
+        "alpha_we":1.0,
+        "beta_bp_miss": 0.5,
+        "speed_mps": 0.5
+        }
+      }
+    },
+    "COSTITUZIONE_1_IN_t": {
+      "creation_dt": 30,
+      "creation_rate": [
+        1000
+      ],
+      "source_location":{
+            "lat":45.439339,
+            "lon":12.319993
+        },
+      "pawns_from_weight": {
+        "tourist_t": {
+        "alpha_we":1.0,
+        "beta_bp_miss": 0.5,
+        "speed_mps": 0.5
+        }
+      }
+    },
+    "COSTITUZIONE_1_IN_w": {
+      "creation_dt": 30,
+      "creation_rate": [
+        1000
+      ],
+      "source_location":{
+            "lat":45.439339,
+            "lon":12.319993
+        },
+      "pawns_from_weight": {
+        "tourist_w": {
+        "alpha_we":1.0,
+        "beta_bp_miss": 0.5,
+        "speed_mps": 0.5
+        }
+      }
+    },
+    "SCALZI_2_IN_t": {
+      "creation_dt": 30,
+      "creation_rate": [
+        1000
+      ],
+      "source_location":{
+            "lat":45.441324,
+            "lon":12.322587
+        },
+      "pawns_from_weight": {
+        "tourist_t": {
+        "alpha_we":1.0,
+        "beta_bp_miss": 0.5,
+        "speed_mps": 0.5
+        }
+      }
+    },
+        "SCALZI_2_IN_w": {
+      "creation_dt": 30,
+      "creation_rate": [
+        1000
+      ],
+      "source_location":{
+            "lat":45.441324,
+            "lon":12.322587
+        },
+      "pawns_from_weight": {
+        "tourist_w": {
+        "alpha_we":1.0,
+        "beta_bp_miss": 0.5,
+        "speed_mps": 0.5
+        }
+      }
+    },
+    "SCALZI_3_IN_w": {
+      "creation_dt": 30,
+      "creation_rate": [
+        1000
+      ],
+      "source_location":{
+            "lat":45.441435,
+            "lon":12.322556
+        },
+      "pawns_from_weight": {
+        "tourist_w": {
+        "alpha_we":1.0,
+        "beta_bp_miss": 0.5,
+        "speed_mps": 0.5
+        }
+      }
+    },
+    "SCALZI_3_IN_t": {
+      "creation_dt": 30,
+      "creation_rate": [
+        1000
+      ],
+      "source_location":{
+            "lat":45.441435,
+            "lon":12.322556
+        },
+      "pawns_from_weight": {
+        "tourist_t": {
+        "alpha_we":1.0,
+        "beta_bp_miss": 0.5,
+        "speed_mps": 0.5
+        }
+      }
+    }
+  }
+}
